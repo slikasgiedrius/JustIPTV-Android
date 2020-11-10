@@ -7,17 +7,25 @@ import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.Data
 import com.giedrius.iptv.data.repository.MainRepository
 import com.giedrius.iptv.utils.toast
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
+import logValidUrl
+import javax.inject.Inject
 
 class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {
+
+    @Inject lateinit var databaseReference: DatabaseReference
 
     val users = MutableLiveData<Data>()
     val error = MutableLiveData<Boolean>()
 
     init {
         fetchData()
+        initDatabase()
     }
 
     private fun fetchData() {
@@ -25,10 +33,15 @@ class MainViewModel @ViewModelInject constructor(
             mainRepository.getData().let {
                 if (it.isSuccessful) {
                     users.postValue(it.body())
+                    //use databaseReference.logValidUrl to store data in db
                 } else {
                     error
                 }
             }
         }
+    }
+
+    private fun initDatabase() {
+        databaseReference = Firebase.database.reference
     }
 }
