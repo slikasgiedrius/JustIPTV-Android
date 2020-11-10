@@ -6,14 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import com.giedrius.iptv.R
-import com.giedrius.iptv.data.model.User
-import com.giedrius.iptv.data.repository.MainRepository
-import com.giedrius.iptv.databinding.MainFragmentBinding
+import com.giedrius.iptv.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_fragment.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -36,7 +34,11 @@ class MainFragment : Fragment() {
 
     private fun handleObservers() {
         viewModel.users.observe(viewLifecycleOwner, {
+            context?.toast("Data fetched successfully!")
             message.text = it.toString()
+        })
+        viewModel.error.observe(viewLifecycleOwner, {
+            context?.toast("Error while fetching data!")
         })
     }
 
