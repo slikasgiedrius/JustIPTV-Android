@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.Data
 import com.giedrius.iptv.data.repository.MainRepository
-import com.giedrius.iptv.db.FirebaseDB
+import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.launch
+import logValidUrl
 
 class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository,
-    private val firebaseDB: FirebaseDB
+    private val firebaseDatabase: DatabaseReference
 ) : ViewModel() {
 
     val users = MutableLiveData<Data>()
@@ -26,7 +27,7 @@ class MainViewModel @ViewModelInject constructor(
             mainRepository.getData().let {
                 if (it.isSuccessful) {
                     users.postValue(it.body())
-                    //use firebaseDB.logValidUrl to store data in db
+                    //use firebaseDatabase.logValidUrl to store data in db
                 } else {
                     error
                 }
