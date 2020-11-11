@@ -8,15 +8,14 @@ import com.giedrius.iptv.data.model.Data
 import com.giedrius.iptv.data.repository.MainRepository
 import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.launch
-import logValidUrl
 
 class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository,
     private val firebaseDatabase: DatabaseReference
 ) : ViewModel() {
 
-  val users = MutableLiveData<Data>()
-  val error = MutableLiveData<Boolean>()
+  val onDataReceived = MutableLiveData<Data>()
+  val onDataError = MutableLiveData<Boolean>()
 
   init {
     fetchData()
@@ -26,10 +25,10 @@ class MainViewModel @ViewModelInject constructor(
     viewModelScope.launch {
       mainRepository.getData().let {
         if (it.isSuccessful) {
-          users.postValue(it.body())
+          onDataReceived.postValue(it.body())
           //use firebaseDatabase.logValidUrl to store data in db
         } else {
-          error
+          onDataError
         }
       }
     }

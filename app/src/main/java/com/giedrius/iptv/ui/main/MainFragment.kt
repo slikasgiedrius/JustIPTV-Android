@@ -30,11 +30,11 @@ class MainFragment : Fragment() {
   }
 
   private fun handleObservers() {
-    viewModel.users.observe(viewLifecycleOwner, {
+    viewModel.onDataReceived.observe(viewLifecycleOwner, {
       context?.toast("Data fetched successfully!")
       message.text = it.toString()
     })
-    viewModel.error.observe(viewLifecycleOwner, {
+    viewModel.onDataError.observe(viewLifecycleOwner, {
       context?.toast("Error while fetching data!")
     })
   }
