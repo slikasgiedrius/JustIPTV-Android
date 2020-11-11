@@ -1,10 +1,9 @@
 package com.giedrius.iptv
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.giedrius.iptv.ui.main.MainFragment
-import com.giedrius.iptv.ui.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.giedrius.iptv.R
 import com.giedrius.iptv.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
