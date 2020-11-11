@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.input_fragment.*
 class ChannelsFragment : Fragment() {
 
     private val viewModel: ChannelsViewModel by viewModels()
-    val args: ChannelsFragmentArgs by navArgs()
+    private val args: ChannelsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

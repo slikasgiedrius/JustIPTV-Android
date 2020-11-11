@@ -28,7 +28,7 @@ class MainViewModel @ViewModelInject constructor(
           onDataReceived.postValue(it.body())
           //use firebaseDatabase.logValidUrl to store data in db
         } else {
-          onDataError
+          onDataError.value = true
         }
       }
     }
