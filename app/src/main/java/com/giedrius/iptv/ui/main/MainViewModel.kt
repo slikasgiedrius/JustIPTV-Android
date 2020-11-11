@@ -15,23 +15,23 @@ class MainViewModel @ViewModelInject constructor(
     private val firebaseDatabase: DatabaseReference
 ) : ViewModel() {
 
-    val users = MutableLiveData<Data>()
-    val error = MutableLiveData<Boolean>()
+  val users = MutableLiveData<Data>()
+  val error = MutableLiveData<Boolean>()
 
-    init {
-        fetchData()
-    }
+  init {
+    fetchData()
+  }
 
-    private fun fetchData() {
-        viewModelScope.launch {
-            mainRepository.getData().let {
-                if (it.isSuccessful) {
-                    users.postValue(it.body())
-                    //use firebaseDatabase.logValidUrl to store data in db
-                } else {
-                    error
-                }
-            }
+  private fun fetchData() {
+    viewModelScope.launch {
+      mainRepository.getData().let {
+        if (it.isSuccessful) {
+          users.postValue(it.body())
+          //use firebaseDatabase.logValidUrl to store data in db
+        } else {
+          error
         }
+      }
     }
+  }
 }
