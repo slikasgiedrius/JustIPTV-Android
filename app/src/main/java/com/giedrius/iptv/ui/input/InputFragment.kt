@@ -1,15 +1,12 @@
 package com.giedrius.iptv.ui.input
 
-import android.annotation.SuppressLint
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.giedrius.iptv.R
 import com.giedrius.iptv.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,29 +24,23 @@ class InputFragment : Fragment() {
         return inflater.inflate(R.layout.input_fragment, container, false)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleObservers()
-        editTextTextMultiLine.setText("http://uran.iptvboss.net:80/get.php?username=GiedriusSlikas&password=GiedriusSlikas&type=m3u_plus&output=ts")
         button.setOnClickListener {
-//            viewModel.validateUrl(editTextTextMultiLine.text.toString())
-            val action = InputFragmentDirections.actionInputFragmentToChannelsFragment(editTextTextMultiLine.text.toString())
-            view.findNavController().navigate(action)
+            viewModel.validateUrl(editTextTextMultiLine.text.toString())
         }
     }
 
     private fun handleObservers() {
-        viewModel.onUrlIsValid.observe(viewLifecycleOwner, {
-            context?.toast("URL is valid!")
-        })
-        viewModel.onUrlIsInvalid.observe(viewLifecycleOwner, {
-            context?.toast("URL is invalid :(")
-        })
-    }
+        viewModel.onUrlIsValid.observe(viewLifecycleOwner) {
+            context?.toast("$it is valid url!")
+            val action = InputFragmentDirections.actionInputFragmentToChannelsFragment(editTextTextMultiLine.text.toString())
+            view?.findNavController()?.navigate(action)
+        }
 
-    private fun navigateToChannelsFragment() {
-
-        context?.toast("URL is valid!")
+        viewModel.onUrlIsInvalid.observe(viewLifecycleOwner) {
+            it.message?.let { message -> context?.toast(message) }
+        }
     }
 }

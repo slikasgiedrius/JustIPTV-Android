@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.Data
 import com.giedrius.iptv.data.repository.MainRepository
+import com.giedrius.iptv.utils.SingleLiveEvent
 import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.launch
 
@@ -14,10 +15,14 @@ class InputViewModel @ViewModelInject constructor(
     private val firebaseDatabase: DatabaseReference
 ) : ViewModel() {
 
-    val onUrlIsValid = MutableLiveData<Boolean>()
-    val onUrlIsInvalid = MutableLiveData<Boolean>()
+    val onUrlIsValid = SingleLiveEvent<String>()
+    val onUrlIsInvalid = SingleLiveEvent<Error>()
 
-    fun validateUrl(url: String) {
-        onUrlIsValid.value = true
+    fun validateUrl(url: String){
+        if (url.startsWith("https")){
+            onUrlIsValid.invoke(url)
+        } else {
+            onUrlIsInvalid.invoke(java.lang.Error("URL invalid"))
+        }
     }
 }
