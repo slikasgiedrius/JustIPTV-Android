@@ -18,8 +18,8 @@ class InputFragment : Fragment() {
     private val viewModel: InputViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.input_fragment, container, false)
     }

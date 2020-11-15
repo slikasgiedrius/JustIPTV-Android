@@ -17,8 +17,8 @@ class PlayerFragment : Fragment() {
     private val viewModel: PlayerViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.player_fragment, container, false)
     }

@@ -6,7 +6,7 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class IptvApplication : Application() {
 
-  override fun onCreate() {
-    super.onCreate()
-  }
+    override fun onCreate() {
+        super.onCreate()
+    }
 }

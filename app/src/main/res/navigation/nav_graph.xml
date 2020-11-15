@@ -8,7 +8,7 @@
         android:id="@+id/inputFragment"
         android:name="com.giedrius.iptv.ui.input.InputFragment"
         android:label="@string/input"
-        tools:layout="@layout/input_fragment" >
+        tools:layout="@layout/input_fragment">
         <action
             android:id="@+id/action_inputFragment_to_channelsFragment"
             app:destination="@id/channelsFragment" />
@@ -17,7 +17,7 @@
         android:id="@+id/channelsFragment"
         android:name="com.giedrius.iptv.ui.channels.ChannelsFragment"
         android:label="@string/channels"
-        tools:layout="@layout/channels_fragment" >
+        tools:layout="@layout/channels_fragment">
         <action
             android:id="@+id/action_channelsFragment_to_playerFragment"
             app:destination="@id/playerFragment" />
@@ -29,7 +29,7 @@
         android:id="@+id/playerFragment"
         android:name="com.giedrius.iptv.ui.player.PlayerFragment"
         android:label="@string/player"
-        tools:layout="@layout/player_fragment" >
+        tools:layout="@layout/player_fragment">
         <action
             android:id="@+id/action_playerFragment_to_mainFragment"
             app:destination="@id/mainFragment" />

@@ -24,8 +24,8 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     @MainThread
     override fun observe(
-        owner: LifecycleOwner,
-        observer: Observer<in T>
+            owner: LifecycleOwner,
+            observer: Observer<in T>
     ) {
 
         if (hasActiveObservers()) {
