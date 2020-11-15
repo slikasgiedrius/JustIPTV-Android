@@ -14,23 +14,23 @@ class MainViewModel @ViewModelInject constructor(
     private val firebaseDatabase: DatabaseReference
 ) : ViewModel() {
 
-  val onDataReceived = MutableLiveData<Data>()
-  val onDataError = MutableLiveData<Boolean>()
+    val onDataReceived = MutableLiveData<Data>()
+    val onDataError = MutableLiveData<Boolean>()
 
-  init {
-    fetchData()
-  }
-
-  private fun fetchData() {
-    viewModelScope.launch {
-      mainRepository.getData().let {
-        if (it.isSuccessful) {
-          onDataReceived.postValue(it.body())
-          //use firebaseDatabase.logValidUrl to store data in db
-        } else {
-          onDataError.value = true
-        }
-      }
+    init {
+        fetchData()
     }
-  }
+
+    private fun fetchData() {
+        viewModelScope.launch {
+            mainRepository.getData().let {
+                if (it.isSuccessful) {
+                    onDataReceived.postValue(it.body())
+                    // use firebaseDatabase.logValidUrl to store data in db
+                } else {
+                    onDataError.value = true
+                }
+            }
+        }
+    }
 }

@@ -15,38 +15,38 @@ import kotlinx.android.synthetic.main.input_fragment.*
 @AndroidEntryPoint
 class InputFragment : Fragment() {
 
-  private val viewModel: InputViewModel by viewModels()
+    private val viewModel: InputViewModel by viewModels()
 
-  override fun onCreateView(
-          inflater: LayoutInflater,
-          container: ViewGroup?,
-          savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.input_fragment, container, false)
-  }
-
-  override fun onViewCreated(
-          view: View,
-          savedInstanceState: Bundle?
-  ) {
-    super.onViewCreated(view, savedInstanceState)
-    handleObservers()
-    button.setOnClickListener {
-      viewModel.validateUrl(editTextTextMultiLine.text.toString())
-    }
-  }
-
-  private fun handleObservers() {
-    viewModel.onUrlIsValid.observe(viewLifecycleOwner) {
-      context?.toast("$it is valid url!")
-      val action = InputFragmentDirections.actionInputFragmentToChannelsFragment(
-              editTextTextMultiLine.text.toString()
-      )
-      view?.findNavController()?.navigate(action)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.input_fragment, container, false)
     }
 
-    viewModel.onUrlIsInvalid.observe(viewLifecycleOwner) {
-      it.message?.let { message -> context?.toast(message) }
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+        handleObservers()
+        button.setOnClickListener {
+            viewModel.validateUrl(editTextTextMultiLine.text.toString())
+        }
     }
-  }
+
+    private fun handleObservers() {
+        viewModel.onUrlIsValid.observe(viewLifecycleOwner) {
+            context?.toast("$it is valid url!")
+            val action = InputFragmentDirections.actionInputFragmentToChannelsFragment(
+                editTextTextMultiLine.text.toString()
+            )
+            view?.findNavController()?.navigate(action)
+        }
+
+        viewModel.onUrlIsInvalid.observe(viewLifecycleOwner) {
+            it.message?.let { message -> context?.toast(message) }
+        }
+    }
 }

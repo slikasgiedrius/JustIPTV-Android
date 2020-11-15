@@ -5,6 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiService {
-  @GET("json/1")
-  suspend fun getData(): Response<Data>
+    @GET("json/1")
+    suspend fun getData(): Response<Data>
 }

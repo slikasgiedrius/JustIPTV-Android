@@ -20,45 +20,44 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 class ApplicationModule {
 
-  @Provides
-  fun provideBaseUrl() = BuildConfig.BASE_URL
+    @Provides
+    fun provideBaseUrl() = BuildConfig.BASE_URL
 
-  @Singleton
-  @Provides
-  fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
-    val loggingInterceptor = HttpLoggingInterceptor()
-    loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-    OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
+    @Singleton
+    @Provides
+    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
+    } else OkHttpClient
+        .Builder()
         .build()
-  } else OkHttpClient
-      .Builder()
-      .build()
 
+    @Singleton
+    @Provides
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        BASE_URL: String
+    ): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .build()
 
-  @Singleton
-  @Provides
-  fun provideRetrofit(
-      okHttpClient: OkHttpClient,
-      BASE_URL: String
-  ): Retrofit =
-      Retrofit.Builder()
-          .addConverterFactory(MoshiConverterFactory.create())
-          .baseUrl(BASE_URL)
-          .client(okHttpClient)
-          .build()
+    @Singleton
+    @Provides
+    fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
 
-  @Singleton
-  @Provides
-  fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
+    @Singleton
+    @Provides
+    fun provideApiHelper(apiService: ApiService): ApiHelper {
+        return ApiHelperImpl(apiService)
+    }
 
-  @Singleton
-  @Provides
-  fun provideApiHelper(apiService: ApiService): ApiHelper {
-    return ApiHelperImpl(apiService)
-  }
-
-  @Singleton
-  @Provides
-  fun provideDatabaseReference() = Firebase.database.reference
+    @Singleton
+    @Provides
+    fun provideDatabaseReference() = Firebase.database.reference
 }
