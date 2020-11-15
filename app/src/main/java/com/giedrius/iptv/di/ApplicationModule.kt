@@ -4,6 +4,8 @@ import com.giedrius.iptv.BuildConfig
 import com.giedrius.iptv.data.api.ApiHelper
 import com.giedrius.iptv.data.api.ApiHelperImpl
 import com.giedrius.iptv.data.api.ApiService
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,8 +23,8 @@ class ApplicationModule {
     @Provides
     fun provideBaseUrl() = BuildConfig.BASE_URL
 
-    @Provides
     @Singleton
+    @Provides
     fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -33,22 +35,29 @@ class ApplicationModule {
         .Builder()
         .build()
 
-
-    @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String): Retrofit =
+    @Provides
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        BASE_URL: String
+    ): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .build()
 
-    @Provides
     @Singleton
+    @Provides
     fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
 
-    @Provides
     @Singleton
-    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper = apiHelper
+    @Provides
+    fun provideApiHelper(apiService: ApiService): ApiHelper {
+        return ApiHelperImpl(apiService)
+    }
 
+    @Singleton
+    @Provides
+    fun provideDatabaseReference() = Firebase.database.reference
 }
