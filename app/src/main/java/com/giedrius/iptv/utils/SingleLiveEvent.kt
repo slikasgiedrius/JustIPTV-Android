@@ -2,11 +2,10 @@ package com.giedrius.iptv.utils
 
 import androidx.annotation.MainThread
 import androidx.annotation.Nullable
-import java.util.concurrent.atomic.AtomicBoolean
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import java.lang.IllegalStateException
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * A lifecycle-aware observable that sends only new updates after subscription, used for events like
@@ -20,46 +19,46 @@ import java.lang.IllegalStateException
  */
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
-    private val pending = AtomicBoolean(false)
+  private val pending = AtomicBoolean(false)
 
-    @MainThread
-    override fun observe(
-            owner: LifecycleOwner,
-            observer: Observer<in T>
-    ) {
+  @MainThread
+  override fun observe(
+          owner: LifecycleOwner,
+          observer: Observer<in T>
+  ) {
 
-        if (hasActiveObservers()) {
-            throw IllegalStateException("Multiple observers registered but only one will be notified of changes.")
+    if (hasActiveObservers()) {
+      throw IllegalStateException("Multiple observers registered but only one will be notified of changes.")
+    }
+
+    // Observe the internal MutableLiveData
+    super.observe(owner, Observer<T> {
+        if (pending.compareAndSet(true, false)) {
+            observer.onChanged(it)
         }
+    })
+  }
 
-        // Observe the internal MutableLiveData
-        super.observe(owner, Observer<T> {
-            if (pending.compareAndSet(true, false)) {
-                observer.onChanged(it)
-            }
-        })
-    }
+  @MainThread
+  override fun setValue(@Nullable t: T?) {
+    pending.set(true)
+    super.setValue(t)
+  }
 
-    @MainThread
-    override fun setValue(@Nullable t: T?) {
-        pending.set(true)
-        super.setValue(t)
-    }
+  /**
+   * Used for cases where T is Void, to make calls cleaner.
+   */
+  @MainThread
+  fun call() {
+    value = null
+  }
 
-    /**
-     * Used for cases where T is Void, to make calls cleaner.
-     */
-    @MainThread
-    fun call() {
-        value = null
+  @MainThread
+  operator fun invoke(data: T? = null) {
+    if (data == null) {
+      call()
+    } else {
+      value = data
     }
-
-    @MainThread
-    operator fun invoke(data: T? = null) {
-        if (data == null) {
-            call()
-        } else {
-            value = data
-        }
-    }
+  }
 }

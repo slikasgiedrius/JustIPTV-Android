@@ -14,20 +14,24 @@ import kotlinx.android.synthetic.main.input_fragment.*
 @AndroidEntryPoint
 class PlayerFragment : Fragment() {
 
-    private val viewModel: PlayerViewModel by viewModels()
+  private val viewModel: PlayerViewModel by viewModels()
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.player_fragment, container, false)
-    }
+  override fun onCreateView(
+          inflater: LayoutInflater,
+          container: ViewGroup?,
+          savedInstanceState: Bundle?
+  ): View? {
+    return inflater.inflate(R.layout.player_fragment, container, false)
+  }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        button.setOnClickListener {
-            findNavController().navigate(R.id.action_playerFragment_to_mainFragment)
-        }
+  override fun onViewCreated(
+          view: View,
+          savedInstanceState: Bundle?
+  ) {
+    super.onViewCreated(view, savedInstanceState)
+    button.setOnClickListener {
+      findNavController().navigate(R.id.action_playerFragment_to_mainFragment)
     }
+  }
 
 }

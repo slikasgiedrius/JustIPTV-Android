@@ -15,22 +15,26 @@ import kotlinx.android.synthetic.main.input_fragment.*
 @AndroidEntryPoint
 class ChannelsFragment : Fragment() {
 
-    private val viewModel: ChannelsViewModel by viewModels()
-    private val args: ChannelsFragmentArgs by navArgs()
+  private val viewModel: ChannelsViewModel by viewModels()
+  private val args: ChannelsFragmentArgs by navArgs()
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.channels_fragment, container, false)
-    }
+  override fun onCreateView(
+          inflater: LayoutInflater,
+          container: ViewGroup?,
+          savedInstanceState: Bundle?
+  ): View? {
+    return inflater.inflate(R.layout.channels_fragment, container, false)
+  }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        textView.text = args.url
-        button.setOnClickListener {
-            findNavController().navigate(R.id.action_channelsFragment_to_playerFragment)
-        }
+  override fun onViewCreated(
+          view: View,
+          savedInstanceState: Bundle?
+  ) {
+    super.onViewCreated(view, savedInstanceState)
+    textView.text = args.url
+    button.setOnClickListener {
+      findNavController().navigate(R.id.action_channelsFragment_to_playerFragment)
     }
+  }
 
 }
