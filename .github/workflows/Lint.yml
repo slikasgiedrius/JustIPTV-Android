@@ -1,4 +1,4 @@
-name: reviewdog
+name: Run Lint
 on: [pull_request]
 jobs:
   ktlint:
