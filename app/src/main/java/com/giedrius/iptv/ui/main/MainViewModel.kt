@@ -10,8 +10,8 @@ import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.launch
 
 class MainViewModel @ViewModelInject constructor(
-        private val mainRepository: MainRepository,
-        private val firebaseDatabase: DatabaseReference
+    private val mainRepository: MainRepository,
+    private val firebaseDatabase: DatabaseReference
 ) : ViewModel() {
 
   val onDataReceived = MutableLiveData<Data>()

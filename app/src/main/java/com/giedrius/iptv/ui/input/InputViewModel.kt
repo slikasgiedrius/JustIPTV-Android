@@ -7,8 +7,8 @@ import com.giedrius.iptv.utils.SingleLiveEvent
 import com.google.firebase.database.DatabaseReference
 
 class InputViewModel @ViewModelInject constructor(
-        private val mainRepository: MainRepository,
-        private val firebaseDatabase: DatabaseReference
+    private val mainRepository: MainRepository,
+    private val firebaseDatabase: DatabaseReference
 ) : ViewModel() {
 
   val onUrlIsValid = SingleLiveEvent<String>()
