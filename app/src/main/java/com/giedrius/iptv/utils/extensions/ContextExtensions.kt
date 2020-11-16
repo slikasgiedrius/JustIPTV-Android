@@ -1,4 +1,4 @@
-package com.giedrius.iptv.utils
+package com.giedrius.iptv.utils.extensions
 
 import android.content.Context
 import android.widget.Toast

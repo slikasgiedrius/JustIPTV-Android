@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.giedrius.iptv.R
-import com.giedrius.iptv.utils.toast
+import com.giedrius.iptv.utils.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.input_fragment.*
 
