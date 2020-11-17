@@ -25,7 +25,7 @@ class MainViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             mainRepository.getData().let {
                 if (it.isSuccessful) {
-                    onDataReceived.postValue(it.body())
+                    onDataReceived.value = it.body()
                     // use firebaseDatabase.com.giedrius.iptv.utils.extensions.logValidUrl to store data in db
                 } else {
                     onDataError.value = true
