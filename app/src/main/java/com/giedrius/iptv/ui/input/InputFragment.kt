@@ -1,9 +1,11 @@
 package com.giedrius.iptv.ui.input
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -14,6 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.input_fragment.*
+import java.io.File
+import java.io.InputStream
+import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
@@ -21,6 +26,7 @@ class InputFragment : Fragment(R.layout.input_fragment) {
 
     private val viewModel: InputViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
@@ -52,12 +58,13 @@ class InputFragment : Fragment(R.layout.input_fragment) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("CheckResult")
     private fun downloadIptvFile() {
         val fileBoxRequest = FileBoxRequest("http://uran.iptvboss.net:80/get.php?username=GiedriusSlikas&password=GiedriusSlikas&type=m3u_plus&output=ts")
 
         val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
-            .setCryptoType(CryptoType.CONCEAL)
+            .setCryptoType(CryptoType.NONE)
             .setTTLInMillis(TimeUnit.DAYS.toMillis(7))
             .setDirectory(DirectoryType.CACHE)
             .build()
@@ -76,6 +83,19 @@ class InputFragment : Fragment(R.layout.input_fragment) {
                         is FileBoxResponse.Complete -> {
                             val savedRecord: Record = fileBoxResponse.record
                             val savedPath = fileBoxResponse.record.getReadableFilePath()
+
+                            Log.d("saved record", savedRecord.toString())
+                            Log.d("saved path", savedPath.toString())
+
+
+                            val fileName = savedRecord.decryptedFilePath
+                            val myFile = File(fileName.toString())
+
+                            val ins: InputStream = myFile.inputStream()
+
+                            val content = ins.readBytes().toString(Charset.defaultCharset())
+                            textView.text = content.count().toString()
+
                         }
                         is FileBoxResponse.Error -> {
                             val savedRecord: Record = fileBoxResponse.record
