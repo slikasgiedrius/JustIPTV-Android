@@ -21,6 +21,7 @@ import java.io.InputStream
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
+
 @AndroidEntryPoint
 class InputFragment : Fragment(R.layout.input_fragment) {
 
