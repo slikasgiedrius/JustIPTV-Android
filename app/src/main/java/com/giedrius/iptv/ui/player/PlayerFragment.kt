@@ -23,6 +23,11 @@ class PlayerFragment : Fragment(R.layout.player_fragment) {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
         button.setOnClickListener {
             findNavController().navigate(R.id.action_playerFragment_to_mainFragment)
         }

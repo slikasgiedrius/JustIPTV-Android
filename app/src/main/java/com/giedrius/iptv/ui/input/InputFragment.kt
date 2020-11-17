@@ -20,10 +20,9 @@ class InputFragment : Fragment(R.layout.input_fragment) {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+
         handleObservers()
-        button.setOnClickListener {
-            viewModel.validateUrl(editTextTextMultiLine.text.toString())
-        }
+        setupListeners()
     }
 
     private fun handleObservers() {
@@ -37,6 +36,12 @@ class InputFragment : Fragment(R.layout.input_fragment) {
 
         viewModel.onUrlIsInvalid.observe(viewLifecycleOwner) {
             it.message?.let { message -> context?.toast(message) }
+        }
+    }
+
+    private fun setupListeners() {
+        button.setOnClickListener {
+            viewModel.validateUrl(editTextTextMultiLine.text.toString())
         }
     }
 }

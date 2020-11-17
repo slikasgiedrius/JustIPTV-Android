@@ -19,6 +19,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+
         handleObservers()
     }
 

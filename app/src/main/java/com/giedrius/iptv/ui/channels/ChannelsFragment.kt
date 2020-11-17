@@ -21,7 +21,16 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment) {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+
+        retrieveDataFromArgs()
+        setupListeners()
+    }
+
+    private fun retrieveDataFromArgs() {
         textView.text = args.url
+    }
+
+    private fun setupListeners() {
         button.setOnClickListener {
             findNavController().navigate(R.id.action_channelsFragment_to_playerFragment)
         }
