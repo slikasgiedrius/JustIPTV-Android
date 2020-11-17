@@ -6,8 +6,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.giedrius.iptv.R
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.input_fragment.*
+import kotlinx.android.synthetic.main.input_fragment.button
+import kotlinx.android.synthetic.main.player_fragment.*
+
 
 @AndroidEntryPoint
 class PlayerFragment : Fragment(R.layout.player_fragment) {
