@@ -9,7 +9,6 @@ import com.giedrius.iptv.R
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.input_fragment.*
 import kotlinx.android.synthetic.main.input_fragment.button
 import kotlinx.android.synthetic.main.player_fragment.*
 
@@ -45,5 +44,7 @@ class PlayerFragment : Fragment(R.layout.player_fragment) {
 
         player!!.setPlayWhenReady(true);
         player!!.prepare();
+
     }
+
 }

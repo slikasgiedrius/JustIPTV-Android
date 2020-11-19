@@ -32,7 +32,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment) {
 
     private fun setupListeners() {
         button.setOnClickListener {
-            findNavController().navigate(R.id.action_channelsFragment_to_playerFragment)
+            findNavController().navigate(R.id.action_channelsFragment_to_playerActivity)
         }
     }
 }

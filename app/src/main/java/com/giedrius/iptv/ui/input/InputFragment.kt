@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.giedrius.iptv.R
 import com.giedrius.iptv.utils.extensions.toast
+import com.google.android.exoplayer2.util.EventLogger
 import com.lyrebirdstudio.fileboxlib.core.*
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -87,16 +88,11 @@ class InputFragment : Fragment(R.layout.input_fragment) {
 
                             Log.d("saved record", savedRecord.toString())
                             Log.d("saved path", savedPath.toString())
-
-
                             val fileName = savedRecord.decryptedFilePath
                             val myFile = File(fileName.toString())
-
                             val ins: InputStream = myFile.inputStream()
-
                             val content = ins.readBytes().toString(Charset.defaultCharset())
                             textView.text = content.count().toString()
-
                         }
                         is FileBoxResponse.Error -> {
                             val savedRecord: Record = fileBoxResponse.record
