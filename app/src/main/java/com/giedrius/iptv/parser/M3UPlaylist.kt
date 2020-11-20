@@ -1,6 +1,6 @@
 package com.giedrius.iptv.parser
 
-internal class M3UPlaylist {
+class M3UPlaylist {
 
     var playlistName: String? = null
 
