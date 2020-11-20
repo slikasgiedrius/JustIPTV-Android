@@ -12,3 +12,15 @@ fun M3UPlaylist.skipBlanks(): ArrayList<M3UItem> {
     }
     return playlistNoBlanks
 }
+
+fun M3UPlaylist.filterByPhrase(phrase: String): ArrayList<M3UItem> {
+    val noBlanks = this.skipBlanks()
+    val noBlanksByPhrase = arrayListOf<M3UItem>()
+    noBlanks.forEach {
+        if (it.itemName!!.contains(phrase)) {
+            noBlanksByPhrase.add(it)
+        }
+    }
+
+    return noBlanksByPhrase
+}

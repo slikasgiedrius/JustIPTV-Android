@@ -6,7 +6,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
@@ -14,7 +13,6 @@ import com.giedrius.iptv.data.model.parser.M3UItem
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
-import kotlinx.android.synthetic.main.input_fragment.button
 
 @AndroidEntryPoint
 class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClickListener {
@@ -30,7 +28,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         super.onViewCreated(view, savedInstanceState)
         context?.let { handleObservers(it) }
 
-        viewModel.downloadIptvFile(args.url)
+        viewModel.downloadFile(args.url)
     }
 
     private fun handleObservers(context: Context) {

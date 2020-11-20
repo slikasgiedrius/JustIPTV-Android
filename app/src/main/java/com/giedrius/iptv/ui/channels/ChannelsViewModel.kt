@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.parser.M3UItem
 import com.giedrius.iptv.data.model.parser.M3UParser
-import com.giedrius.iptv.data.model.parser.M3UPlaylist
 import com.giedrius.iptv.utils.SingleLiveEvent
-import com.giedrius.iptv.utils.extensions.skipBlanks
+import com.giedrius.iptv.utils.extensions.filterByPhrase
 import com.lyrebirdstudio.fileboxlib.core.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,7 +24,7 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
 
-    fun downloadIptvFile(url: String) {
+    fun downloadFile(url: String) {
         val fileBoxRequest = FileBoxRequest(url)
 
         val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
@@ -41,6 +40,7 @@ class ChannelsViewModel @ViewModelInject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ fileBoxResponse ->
                     when (fileBoxResponse) {
+                        is FileBoxResponse.Started -> TODO()
                         is FileBoxResponse.Downloading -> {
                             val progress: Float = fileBoxResponse.progress
                             val ongoingRecord: Record = fileBoxResponse.record
@@ -49,7 +49,7 @@ class ChannelsViewModel @ViewModelInject constructor(
                             val savedRecord: Record = fileBoxResponse.record
                             val savedPath = fileBoxResponse.record.getReadableFilePath()
 
-                            loadChannels(savedRecord.decryptedFilePath!!)
+                            savedRecord.decryptedFilePath?.let { loadChannels(it) }
                         }
                         is FileBoxResponse.Error -> {
                             val savedRecord: Record = fileBoxResponse.record
@@ -64,6 +64,7 @@ class ChannelsViewModel @ViewModelInject constructor(
         val parser = M3UParser()
         val inputStream = FileInputStream(File(name))
         val playlist = parser.parseFile(inputStream)
-        onFetchedChannels.invoke(playlist.skipBlanks())
+        val filteredPlaylist = playlist.filterByPhrase("USA")
+        onFetchedChannels.invoke(filteredPlaylist)
     }
 }
