@@ -40,7 +40,6 @@ class PlayerActivity : AppCompatActivity(R.layout.player_fragment) {
 
     override fun onResume() {
         super.onResume()
-        hideSystemUI()
         if (mPlayer == null) {
             initPlayer()
         }
