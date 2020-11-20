@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.giedrius.iptv.data.model.parser.M3UItem
 import com.giedrius.iptv.data.model.parser.M3UParser
 import com.giedrius.iptv.data.model.parser.M3UPlaylist
 import com.giedrius.iptv.utils.SingleLiveEvent
+import com.giedrius.iptv.utils.extensions.skipBlanks
 import com.lyrebirdstudio.fileboxlib.core.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,7 +23,7 @@ class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context
 ) : ViewModel() {
 
-    val onFetchedChannels = SingleLiveEvent<M3UPlaylist>()
+    val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
 
     fun downloadIptvFile(url: String) {
         val fileBoxRequest = FileBoxRequest(url)
@@ -62,7 +64,6 @@ class ChannelsViewModel @ViewModelInject constructor(
         val parser = M3UParser()
         val inputStream = FileInputStream(File(name))
         val playlist = parser.parseFile(inputStream)
-        onFetchedChannels.invoke(playlist)
-        Timber.d(playlist.playlistItems?.count().toString())
+        onFetchedChannels.invoke(playlist.skipBlanks())
     }
 }

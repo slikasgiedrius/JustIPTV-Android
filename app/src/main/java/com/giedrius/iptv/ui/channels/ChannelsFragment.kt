@@ -38,7 +38,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
             linearLayoutManager = LinearLayoutManager(context)
             recyclerView.layoutManager = linearLayoutManager
             recyclerView.adapter = ChannelsAdapter(
-                it.playlistItems!!,
+                it,
                 context,
                 this
             )
