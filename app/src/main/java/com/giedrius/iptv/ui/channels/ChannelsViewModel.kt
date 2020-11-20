@@ -4,12 +4,9 @@ import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.giedrius.iptv.data.repository.MainRepository
-import com.giedrius.iptv.parser.M3UParser
-import com.giedrius.iptv.parser.M3UPlaylist
+import com.giedrius.iptv.data.model.parser.M3UParser
+import com.giedrius.iptv.data.model.parser.M3UPlaylist
 import com.giedrius.iptv.utils.SingleLiveEvent
-import com.google.firebase.database.DatabaseReference
-import com.iheartradio.m3u8.data.Playlist
 import com.lyrebirdstudio.fileboxlib.core.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.android.schedulers.AndroidSchedulers

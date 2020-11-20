@@ -17,7 +17,4 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 }

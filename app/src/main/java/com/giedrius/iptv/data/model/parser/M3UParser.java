@@ -1,6 +1,4 @@
-package com.giedrius.iptv.parser;
-
-import android.util.Log;
+package com.giedrius.iptv.data.model.parser;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

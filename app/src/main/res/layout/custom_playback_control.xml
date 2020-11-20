@@ -1,4 +1,0 @@
-<ImageButton android:id="@id/exo_rew"
-    android:tint="#FF00A6FF"
-    style="@style/ExoMediaButton.Rewind"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
