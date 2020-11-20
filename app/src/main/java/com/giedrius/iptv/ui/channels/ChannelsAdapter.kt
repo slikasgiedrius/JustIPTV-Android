@@ -31,10 +31,11 @@ class ChannelsAdapter(
         holder.itemView.setOnClickListener {
             recyclerViewClickListener.onPlaylistClickListener(items[position])
         }
-        holder.text.text = items[position].itemUrl
+        holder.name.text = items[position].itemName
     }
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val text: TextView = view.tv_animal_type
+    val name: TextView = view.tv_name
+
 }

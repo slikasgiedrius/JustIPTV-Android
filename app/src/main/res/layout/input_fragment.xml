@@ -25,7 +25,6 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="https://"
-        android:text="https"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
