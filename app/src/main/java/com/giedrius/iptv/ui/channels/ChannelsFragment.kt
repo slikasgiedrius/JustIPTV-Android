@@ -11,14 +11,13 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
 import com.giedrius.iptv.parser.M3UItem
-import com.giedrius.iptv.ui.input.InputFragmentDirections
+import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
-import kotlinx.android.synthetic.main.input_fragment.*
 import kotlinx.android.synthetic.main.input_fragment.button
 
 @AndroidEntryPoint
-class ChannelsFragment : Fragment(R.layout.channels_fragment), CellClickListener {
+class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClickListener {
 
     private val viewModel: ChannelsViewModel by viewModels()
     private val args: ChannelsFragmentArgs by navArgs()
@@ -53,7 +52,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), CellClickListener
         }
     }
 
-    override fun onCellClickListener(item: M3UItem) {
+    override fun onPlaylistClickListener(item: M3UItem) {
         val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
             item.itemUrl.toString()
         )

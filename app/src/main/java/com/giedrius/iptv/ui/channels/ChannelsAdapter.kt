@@ -8,12 +8,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.giedrius.iptv.R
 import com.giedrius.iptv.parser.M3UItem
+import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.item_channel.view.*
 
+class ChannelsAdapter(
+    private val items: ArrayList<M3UItem>,
+    private val context: Context,
+    private val recyclerViewClickListener: RecyclerViewClickListener
+) : RecyclerView.Adapter<ViewHolder>() {
 
-class ChannelsAdapter(val items: ArrayList<M3UItem>, val context: Context, val cellClickListener: CellClickListener) : RecyclerView.Adapter<ViewHolder>() {
-
-    // Gets the number of animals in the list
     override fun getItemCount(): Int {
         return items.size
     }
@@ -26,7 +29,7 @@ class ChannelsAdapter(val items: ArrayList<M3UItem>, val context: Context, val c
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            cellClickListener.onCellClickListener(items[position])
+            recyclerViewClickListener.onPlaylistClickListener(items[position])
         }
         holder.text.text = items[position].itemUrl
     }
