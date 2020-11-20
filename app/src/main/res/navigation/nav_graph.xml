@@ -45,5 +45,9 @@
     <activity
         android:id="@+id/playerActivity"
         android:name="com.giedrius.iptv.ui.player.PlayerActivity"
-        android:label="PlayerActivity" />
+        android:label="PlayerActivity">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </activity>
 </navigation>

@@ -26,13 +26,8 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     val onFetchedChannels = SingleLiveEvent<M3UPlaylist>()
 
-    init {
-        downloadIptvFile()
-    }
-
-
-    private fun downloadIptvFile() {
-        val fileBoxRequest = FileBoxRequest("http://uran.iptvboss.net:80/get.php?username=GiedriusSlikas&password=GiedriusSlikas&type=m3u_plus&output=ts")
+    fun downloadIptvFile(url: String) {
+        val fileBoxRequest = FileBoxRequest(url)
 
         val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
             .setCryptoType(CryptoType.NONE)

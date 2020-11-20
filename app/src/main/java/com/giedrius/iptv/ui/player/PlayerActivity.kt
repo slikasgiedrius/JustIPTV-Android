@@ -1,9 +1,12 @@
 package com.giedrius.iptv.ui.player
 
 import android.content.res.Configuration
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.navArgs
 import com.giedrius.iptv.R
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -22,20 +25,22 @@ class PlayerActivity : AppCompatActivity(R.layout.player_fragment) {
     private var playWhenReady = true
     private var currentWindow = 0
 
+    private val args: PlayerActivityArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        initPlayer()
+    }
+
     private fun initPlayer() {
         mPlayer = SimpleExoPlayer.Builder(this).build()
         // Bind the player to the view.
         video_view.player = mPlayer
         mPlayer!!.playWhenReady = true
         val mediaItem: MediaItem =
-            MediaItem.fromUri("http://uran.iptvboss.net:80/GiedriusSlikas/GiedriusSlikas/46925")
+            MediaItem.fromUri(args.url)
         mPlayer!!.setMediaItem(mediaItem)
         mPlayer!!.prepare()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initPlayer()
     }
 
     override fun onResume() {

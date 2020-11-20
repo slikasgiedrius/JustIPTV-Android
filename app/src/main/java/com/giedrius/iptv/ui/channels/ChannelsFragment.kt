@@ -5,26 +5,24 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
+import com.giedrius.iptv.parser.M3UItem
+import com.giedrius.iptv.ui.input.InputFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
+import kotlinx.android.synthetic.main.input_fragment.*
 import kotlinx.android.synthetic.main.input_fragment.button
-import kotlinx.android.synthetic.main.input_fragment.textView
 
 @AndroidEntryPoint
-class ChannelsFragment : Fragment(R.layout.channels_fragment) {
+class ChannelsFragment : Fragment(R.layout.channels_fragment), CellClickListener {
 
     private val viewModel: ChannelsViewModel by viewModels()
     private val args: ChannelsFragmentArgs by navArgs()
     private lateinit var linearLayoutManager: LinearLayoutManager
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onViewCreated(
         view: View,
@@ -33,12 +31,8 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment) {
         super.onViewCreated(view, savedInstanceState)
         context?.let { handleObservers(it) }
 
-        retrieveDataFromArgs()
+        viewModel.downloadIptvFile(args.url)
         setupListeners()
-    }
-
-    private fun retrieveDataFromArgs() {
-        textView.text = args.url
     }
 
     private fun setupListeners() {
@@ -51,7 +45,18 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment) {
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
             linearLayoutManager = LinearLayoutManager(context)
             recyclerView.layoutManager = linearLayoutManager
-            recyclerView.adapter = it.playlistItems?.let { it1 -> ChannelsAdapter(it1, context) }
+            recyclerView.adapter = ChannelsAdapter(
+                it.playlistItems!!,
+                context,
+                this
+            )
         }
+    }
+
+    override fun onCellClickListener(item: M3UItem) {
+        val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
+            item.itemUrl.toString()
+        )
+        view?.findNavController()?.navigate(action)
     }
 }
