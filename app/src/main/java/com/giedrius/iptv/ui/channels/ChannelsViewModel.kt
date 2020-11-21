@@ -5,10 +5,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.giedrius.iptv.IptvApplication.Companion.FILE_PATH
-import com.giedrius.iptv.IptvApplication.Companion.prefs
 import com.giedrius.iptv.data.model.parser.M3UItem
 import com.giedrius.iptv.data.model.parser.M3UParser
+import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
 import com.giedrius.iptv.utils.extensions.filterByPhrase
 import com.lyrebirdstudio.fileboxlib.core.*
@@ -22,13 +21,15 @@ import java.io.FileInputStream
 import java.util.concurrent.TimeUnit
 
 class ChannelsViewModel @ViewModelInject constructor(
-    @ApplicationContext private val application: Context
+    @ApplicationContext private val application: Context,
+    private val preferences: Preferences
 ) : ViewModel() {
 
     val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
 
-    fun downloadFile(url: String, phrase: String? = null) {
-        val fileBoxRequest = FileBoxRequest(url)
+    fun downloadPlayerFile(phrase: String? = null) {
+        val initialUrl = preferences.pullString("initial_url").toString()
+        val fileBoxRequest = FileBoxRequest(initialUrl)
 
         val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
             .setCryptoType(CryptoType.NONE)
@@ -52,7 +53,7 @@ class ChannelsViewModel @ViewModelInject constructor(
                             val savedRecord: Record = fileBoxResponse.record
                             val savedPath = fileBoxResponse.record.getReadableFilePath()
 
-                            prefs.push(FILE_PATH, savedRecord.decryptedFilePath.toString())
+                            preferences.pushString("file_path", savedRecord.decryptedFilePath.toString())
                             savedRecord.decryptedFilePath?.let { loadChannels(it, phrase) }
                         }
                         is FileBoxResponse.Error -> {
@@ -78,7 +79,7 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     fun loadChannelsNoUpdate(phrase: String?) {
         val parser = M3UParser()
-        val pathFromPrefs = prefs.pull(FILE_PATH, "")
+        val pathFromPrefs = preferences.pullString("file_path")
         val inputStream = FileInputStream(File(pathFromPrefs))
         val playlist = parser.parseFile(inputStream)
         val filteredPlaylist = playlist.filterByPhrase(phrase)

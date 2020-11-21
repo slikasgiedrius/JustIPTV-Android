@@ -18,9 +18,6 @@
         android:name="com.giedrius.iptv.ui.channels.ChannelsFragment"
         android:label="@string/channels"
         tools:layout="@layout/channels_fragment">
-        <argument
-            android:name="url"
-            app:argType="string" />
         <action
             android:id="@+id/action_channelsFragment_to_playerActivity"
             app:destination="@id/playerActivity" />

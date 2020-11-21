@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
-import com.giedrius.iptv.IptvApplication.Companion.FILE_PATH
-import com.giedrius.iptv.IptvApplication.Companion.prefs
+import androidx.navigation.fragment.findNavController
 import com.giedrius.iptv.R
-import com.giedrius.iptv.utils.extensions.toast
+import com.giedrius.iptv.utils.Preferences
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.input_fragment.*
 import timber.log.Timber
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -30,18 +29,18 @@ class InputFragment : Fragment(R.layout.input_fragment) {
         setupListeners()
     }
 
-    private fun handleObservers() {
-        viewModel.onUrlIsValid.observe(viewLifecycleOwner) {
-            context?.toast("$it is valid url!")
-            val action = InputFragmentDirections.actionInputFragmentToChannelsFragment(
-                editTextTextMultiLine.text.toString()
+    private fun setupInitialUrl() {
+        val initialUrl = viewModel.getInitialUrl()
+        Timber.d("INITIAL URL $initialUrl")
+        if (initialUrl.isNullOrEmpty()) {
+            editTextTextMultiLine.setText(
+                "http://uran.iptvboss.net:80/get.php?username=GiedriusSlikas&password=GiedriusSlikas&type=m3u_plus&output=ts"
             )
-            view?.findNavController()?.navigate(action)
         }
+    }
 
-        viewModel.onUrlIsInvalid.observe(viewLifecycleOwner) {
-            it.message?.let { message -> context?.toast(message) }
-        }
+    private fun handleObservers() {
+        viewModel.onUrlIsValid.observe(viewLifecycleOwner) { navigateToChannels() }
     }
 
     private fun setupListeners() {
@@ -50,7 +49,6 @@ class InputFragment : Fragment(R.layout.input_fragment) {
         }
     }
 
-    private fun setupInitialUrl() {
-        editTextTextMultiLine.setText("http://uran.iptvboss.net:80/get.php?username=GiedriusSlikas&password=GiedriusSlikas&type=m3u_plus&output=ts")
-    }
+    private fun navigateToChannels() = findNavController().navigate(R.id.channelsFragment)
+
 }
