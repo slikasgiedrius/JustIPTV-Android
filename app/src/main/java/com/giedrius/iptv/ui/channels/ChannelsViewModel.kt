@@ -2,6 +2,7 @@ package com.giedrius.iptv.ui.channels
 
 import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.parser.M3UItem
@@ -22,7 +23,8 @@ class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context
 ) : ViewModel() {
 
-    val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
+    val onFetchedChannels = MutableLiveData<ArrayList<M3UItem>>()
+    private var path: String = ""
 
     fun downloadFile(url: String) {
         val fileBoxRequest = FileBoxRequest(url)
@@ -49,6 +51,7 @@ class ChannelsViewModel @ViewModelInject constructor(
                             val savedRecord: Record = fileBoxResponse.record
                             val savedPath = fileBoxResponse.record.getReadableFilePath()
 
+                            path = savedRecord.decryptedFilePath.toString()
                             savedRecord.decryptedFilePath?.let { loadChannels(it) }
                         }
                         is FileBoxResponse.Error -> {
@@ -60,11 +63,15 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun loadChannels(name: String) {
+    fun loadChannels(name: String = "", phrase: String? = null) {
         val parser = M3UParser()
-        val inputStream = FileInputStream(File(name))
+        val inputStream = FileInputStream(File(path))
         val playlist = parser.parseFile(inputStream)
-        val filteredPlaylist = playlist.filterByPhrase("USA")
-        onFetchedChannels.invoke(filteredPlaylist)
+        if (phrase.isNullOrEmpty()) {
+            onFetchedChannels.postValue(playlist.playlistItems)
+        } else {
+            val filteredPlaylist = playlist.filterByPhrase(phrase)
+            onFetchedChannels.postValue(filteredPlaylist)
+        }
     }
 }

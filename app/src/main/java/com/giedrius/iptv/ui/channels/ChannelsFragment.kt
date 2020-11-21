@@ -26,15 +26,15 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        context?.let { handleObservers(it) }
 
+        setupListeners()
+        initRecyclerView()
+        context?.let { handleObservers(it) }
         viewModel.downloadFile(args.url)
     }
 
     private fun handleObservers(context: Context) {
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
-            linearLayoutManager = LinearLayoutManager(context)
-            recyclerView.layoutManager = linearLayoutManager
             recyclerView.adapter = ChannelsAdapter(
                 it,
                 context,
@@ -48,5 +48,16 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
             item.itemUrl.toString()
         )
         view?.findNavController()?.navigate(action)
+    }
+
+    private fun initRecyclerView() {
+        linearLayoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = linearLayoutManager
+    }
+
+    private fun setupListeners() {
+        btnSearch.setOnClickListener {
+            viewModel.loadChannels(etSearch.text.toString())
+        }
     }
 }
