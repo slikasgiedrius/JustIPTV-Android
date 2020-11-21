@@ -26,7 +26,7 @@ class ChannelsViewModel @ViewModelInject constructor(
     val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
     private var path: String = ""
 
-    fun downloadFile(url: String) {
+    fun downloadFile(url: String, phrase: String? = null) {
         val fileBoxRequest = FileBoxRequest(url)
 
         val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
@@ -51,8 +51,7 @@ class ChannelsViewModel @ViewModelInject constructor(
                             val savedRecord: Record = fileBoxResponse.record
                             val savedPath = fileBoxResponse.record.getReadableFilePath()
 
-                            path = savedRecord.decryptedFilePath.toString()
-                            savedRecord.decryptedFilePath?.let { loadChannels(it) }
+                            savedRecord.decryptedFilePath?.let { loadChannels(it, phrase) }
                         }
                         is FileBoxResponse.Error -> {
                             val savedRecord: Record = fileBoxResponse.record
@@ -63,23 +62,15 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
-//    fun loadChannels(name: String = "", phrase: String? = null) {
-//        val parser = M3UParser()
-//        val inputStream = FileInputStream(File(path))
-//        val playlist = parser.parseFile(inputStream)
-//        if (phrase.isNullOrEmpty()) {
-//            onFetchedChannels.postValue(playlist.playlistItems)
-//        } else {
-//            val filteredPlaylist = playlist.filterByPhrase(phrase)
-//            onFetchedChannels.postValue(filteredPlaylist)
-//        }
-//    }
-
-    fun loadChannels(name: String = "", phrase: String? = null) {
+    fun loadChannels(name: String, phrase: String?) {
         val parser = M3UParser()
-        val inputStream = FileInputStream(File(path))
+        val inputStream = FileInputStream(File(name))
         val playlist = parser.parseFile(inputStream)
-        val filteredPlaylist = playlist.filterByPhrase("UK")
-        onFetchedChannels.postValue(filteredPlaylist)
+        if (phrase.isNullOrEmpty()) {
+            onFetchedChannels.postValue(playlist.playlistItems)
+        } else {
+            val filteredPlaylist = playlist.filterByPhrase(phrase)
+            onFetchedChannels.postValue(filteredPlaylist)
+        }
     }
 }

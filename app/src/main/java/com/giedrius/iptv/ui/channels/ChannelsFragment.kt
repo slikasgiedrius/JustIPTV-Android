@@ -29,17 +29,10 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     ) {
         super.onViewCreated(view, savedInstanceState)
 
+        handleObservers()
         setupListeners()
-        initRecyclerView()
-        context?.let { handleObservers(it) }
+        setupRecyclerView()
         viewModel.downloadFile(args.url)
-    }
-
-    private fun handleObservers(context: Context) {
-        viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
-            items.addAll(it)
-            adapter.notifyDataSetChanged()
-        }
     }
 
     override fun onPlaylistClickListener(item: M3UItem) {
@@ -49,16 +42,22 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         view?.findNavController()?.navigate(action)
     }
 
-    private fun initRecyclerView() {
-        linearLayoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = linearLayoutManager
-        adapter = context?.let { ChannelsAdapter(items, it, this) }!!
-        recyclerView.adapter = adapter
+    private fun handleObservers() {
+        viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
+            adapter.update(it)
+        }
     }
 
     private fun setupListeners() {
         btnSearch.setOnClickListener {
-            viewModel.loadChannels(etSearch.text.toString())
+            viewModel.downloadFile(args.url, etSearch.text.toString())
         }
+    }
+
+    private fun setupRecyclerView() {
+        linearLayoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = linearLayoutManager
+        adapter = ChannelsAdapter(items, requireContext(), this)
+        recyclerView.adapter = adapter
     }
 }
