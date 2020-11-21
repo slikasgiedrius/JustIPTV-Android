@@ -5,10 +5,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.giedrius.iptv.IptvApplication.Companion.FILE_PATH
+import com.giedrius.iptv.IptvApplication.Companion.prefs
 import com.giedrius.iptv.R
 import com.giedrius.iptv.utils.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.input_fragment.*
+import timber.log.Timber
 
 
 @AndroidEntryPoint

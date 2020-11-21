@@ -50,7 +50,8 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
 
     private fun setupListeners() {
         btnSearch.setOnClickListener {
-            viewModel.downloadFile(args.url, etSearch.text.toString())
+//            viewModel.downloadFile(args.url, etSearch.text.toString())
+            viewModel.loadChannelsNoUpdate(etSearch.text.toString())
         }
     }
 

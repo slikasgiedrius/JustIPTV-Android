@@ -99,6 +99,9 @@ dependencies {
     //Parser
     implementation 'com.iheartradio.m3u8:open-m3u8:0.2.4'
 
+    //Secure preferences
+    implementation 'com.cioccarellia:ksprefs:2.2.2'
+
     //Tests
     testImplementation 'junit:junit:4.13.1'
 
