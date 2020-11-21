@@ -20,6 +20,8 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     private val viewModel: ChannelsViewModel by viewModels()
     private val args: ChannelsFragmentArgs by navArgs()
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var adapter: ChannelsAdapter
+    private var items: ArrayList<M3UItem> = arrayListOf()
 
     override fun onViewCreated(
         view: View,
@@ -35,11 +37,8 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
 
     private fun handleObservers(context: Context) {
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
-            recyclerView.adapter = ChannelsAdapter(
-                it,
-                context,
-                this
-            )
+            items.addAll(it)
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -53,6 +52,8 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     private fun initRecyclerView() {
         linearLayoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = linearLayoutManager
+        adapter = context?.let { ChannelsAdapter(items, it, this) }!!
+        recyclerView.adapter = adapter
     }
 
     private fun setupListeners() {

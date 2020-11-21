@@ -23,7 +23,7 @@ class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context
 ) : ViewModel() {
 
-    val onFetchedChannels = MutableLiveData<ArrayList<M3UItem>>()
+    val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
     private var path: String = ""
 
     fun downloadFile(url: String) {
@@ -40,7 +40,7 @@ class ChannelsViewModel @ViewModelInject constructor(
                 .get(fileBoxRequest)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe ({ fileBoxResponse ->
+                .subscribe({ fileBoxResponse ->
                     when (fileBoxResponse) {
                         is FileBoxResponse.Started -> TODO()
                         is FileBoxResponse.Downloading -> {
@@ -63,15 +63,23 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
+//    fun loadChannels(name: String = "", phrase: String? = null) {
+//        val parser = M3UParser()
+//        val inputStream = FileInputStream(File(path))
+//        val playlist = parser.parseFile(inputStream)
+//        if (phrase.isNullOrEmpty()) {
+//            onFetchedChannels.postValue(playlist.playlistItems)
+//        } else {
+//            val filteredPlaylist = playlist.filterByPhrase(phrase)
+//            onFetchedChannels.postValue(filteredPlaylist)
+//        }
+//    }
+
     fun loadChannels(name: String = "", phrase: String? = null) {
         val parser = M3UParser()
         val inputStream = FileInputStream(File(path))
         val playlist = parser.parseFile(inputStream)
-        if (phrase.isNullOrEmpty()) {
-            onFetchedChannels.postValue(playlist.playlistItems)
-        } else {
-            val filteredPlaylist = playlist.filterByPhrase(phrase)
-            onFetchedChannels.postValue(filteredPlaylist)
-        }
+        val filteredPlaylist = playlist.filterByPhrase("UK")
+        onFetchedChannels.postValue(filteredPlaylist)
     }
 }
