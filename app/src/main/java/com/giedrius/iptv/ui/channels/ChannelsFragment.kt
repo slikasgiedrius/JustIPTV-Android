@@ -11,6 +11,7 @@ import com.giedrius.iptv.data.model.parser.M3UItem
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClickListener {
@@ -33,6 +34,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     }
 
     override fun onPlaylistClickListener(item: M3UItem) {
+        logClikedChannelData(item)
         val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
             item.itemUrl.toString()
         )
@@ -56,5 +58,12 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         recyclerView.layoutManager = linearLayoutManager
         adapter = ChannelsAdapter(items, requireContext(), this)
         recyclerView.adapter = adapter
+    }
+
+    private fun logClikedChannelData(channel: M3UItem) {
+        Timber.d("CLICKED ITEM Duration ${channel.itemDuration}")
+        Timber.d("CLICKED ITEM Name ${channel.itemName}")
+        Timber.d("CLICKED ITEM Url ${channel.itemUrl}")
+        Timber.d("CLICKED ITEM Icon ${channel.itemIcon}")
     }
 }

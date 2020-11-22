@@ -9,4 +9,8 @@ class M3UItem {
     var itemUrl: String? = null
 
     var itemIcon: String? = null
+
+    var itemGroup: String? = null
+
+    var itemId: String? = null
 }
