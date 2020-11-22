@@ -3,7 +3,6 @@ package com.giedrius.iptv.data.parser
 import timber.log.Timber
 import java.io.InputStream
 import java.util.*
-import kotlin.NoSuchElementException
 
 class NewM3UParser {
 
