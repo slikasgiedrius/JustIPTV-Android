@@ -18,73 +18,14 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
-    private val preferences: Preferences
+    preferences: Preferences
 ) : ViewModel() {
 
+    var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
+
     val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
-
-    fun downloadPlayerFile(phrase: String? = null) {
-        val initialUrl = preferences.getInitialUrl()
-        Timber.d("INITIAL URL Channels $initialUrl")
-        val fileBoxRequest = initialUrl?.let { FileBoxRequest(it) }
-
-        val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
-            .setCryptoType(CryptoType.NONE)
-            .setTTLInMillis(TimeUnit.DAYS.toMillis(7))
-            .setDirectory(DirectoryType.CACHE)
-            .build()
-
-        viewModelScope.launch {
-            fileBoxRequest?.let {
-                FileBoxProvider.newInstance(application, fileBoxConfig)
-                    .get(it)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ fileBoxResponse ->
-                        when (fileBoxResponse) {
-                            is FileBoxResponse.Started -> TODO()
-                            is FileBoxResponse.Downloading -> {
-                                val progress: Float = fileBoxResponse.progress
-                                val ongoingRecord: Record = fileBoxResponse.record
-                            }
-                            is FileBoxResponse.Complete -> {
-                                val savedRecord: Record = fileBoxResponse.record
-                                val savedPath = fileBoxResponse.record.getReadableFilePath()
-
-                                preferences.setFilePath(savedRecord.decryptedFilePath.toString())
-                                savedRecord.decryptedFilePath?.let { it -> loadChannels(it, phrase) }
-                            }
-                            is FileBoxResponse.Error -> {
-                                val savedRecord: Record = fileBoxResponse.record
-                                val error = fileBoxResponse.throwable
-                            }
-                        }
-                    }, Timber::e)
-            }
-        }
-    }
-
-    fun loadChannels(name: String, phrase: String?) {
-        val parser = M3UParser()
-        val inputStream = FileInputStream(File(name))
-        val playlist = parser.parseFile(inputStream)
-        if (phrase.isNullOrEmpty()) {
-            onFetchedChannels.postValue(playlist.playlistItems)
-        } else {
-            val filteredPlaylist = playlist.filterByPhrase(phrase)
-            onFetchedChannels.postValue(filteredPlaylist)
-        }
-    }
-
-    fun loadChannelsNoUpdate(phrase: String?) {
-        val parser = M3UParser()
-        val pathFromPrefs = preferences.getFilePath()
-        val inputStream = FileInputStream(File(pathFromPrefs))
-        val playlist = parser.parseFile(inputStream)
-        val filteredPlaylist = playlist.filterByPhrase(phrase)
-        onFetchedChannels.postValue(filteredPlaylist)
-    }
 }

@@ -29,7 +29,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         handleObservers()
         setupListeners()
         setupRecyclerView()
-        viewModel.downloadPlayerFile()
+        viewModel.channelsDownloader.downloadPlayerFile()
     }
 
     override fun onPlaylistClickListener(item: M3UItem) {
@@ -47,7 +47,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
 
     private fun setupListeners() {
         btnSearch.setOnClickListener {
-            viewModel.loadChannelsNoUpdate(etSearch.text.toString())
+            viewModel.channelsDownloader.loadChannelsNoUpdate(etSearch.text.toString())
         }
     }
 
