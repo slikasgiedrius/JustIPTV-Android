@@ -4,8 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.parser.M3UItem
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
@@ -32,6 +34,7 @@ class ChannelsAdapter(
             recyclerViewClickListener.onPlaylistClickListener(channels[position])
         }
         holder.channelName.text = channels[position].itemName
+        holder.channelLogo.load(channels[position].itemIcon)
     }
 
     fun update(newItems: ArrayList<M3UItem>) {
@@ -41,5 +44,6 @@ class ChannelsAdapter(
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val channelLogo: ImageView = view.ivChannelLogo
     val channelName: TextView = view.tvChannelName
 }

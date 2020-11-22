@@ -12,6 +12,7 @@ public class M3UParser {
     private static final String EXT_INF = "#EXTINF:";
     private static final String EXT_PLAYLIST_NAME = "#PLAYLIST";
     private static final String EXT_LOGO = "tvg-logo";
+    private static final String EXT_GROUP = "group-title";
     private static final String EXT_URL = "http://";
 
     private String convertStreamToString(InputStream is) {
