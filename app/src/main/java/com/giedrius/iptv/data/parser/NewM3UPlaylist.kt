@@ -1,4 +1,4 @@
-package com.giedrius.iptv.data.model.parser
+package com.giedrius.iptv.data.parser
 
 class NewM3UPlaylist {
 

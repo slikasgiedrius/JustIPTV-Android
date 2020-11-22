@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.giedrius.iptv.R
-import com.giedrius.iptv.data.model.parser.NewM3UItem
+import com.giedrius.iptv.data.parser.NewM3UItem
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.item_channel.view.*
 

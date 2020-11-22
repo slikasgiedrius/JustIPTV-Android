@@ -1,9 +1,10 @@
-package com.giedrius.iptv.data.model.parser
+package com.giedrius.iptv.data.parser.old
 
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.util.*
 
+@Deprecated("Use NewM3UParser")
 class M3UParser {
     private fun convertStreamToString(`is`: InputStream): String {
         return try {

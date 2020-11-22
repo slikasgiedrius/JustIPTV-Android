@@ -1,4 +1,4 @@
-package com.giedrius.iptv.data.model.parser
+package com.giedrius.iptv.data.parser
 
 import timber.log.Timber
 import java.io.InputStream

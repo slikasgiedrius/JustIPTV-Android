@@ -1,5 +1,6 @@
-package com.giedrius.iptv.data.model.parser
+package com.giedrius.iptv.data.parser.old
 
+@Deprecated("Use NewM3UItem")
 class M3UItem {
     var itemName: String? = null
 

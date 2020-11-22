@@ -1,7 +1,7 @@
 package com.giedrius.iptv.utils.extensions
 
-import com.giedrius.iptv.data.model.parser.NewM3UItem
-import com.giedrius.iptv.data.model.parser.NewM3UPlaylist
+import com.giedrius.iptv.data.parser.NewM3UItem
+import com.giedrius.iptv.data.parser.NewM3UPlaylist
 
 fun NewM3UPlaylist.skipBlanks(): ArrayList<NewM3UItem> {
     val playlistNoBlanks: ArrayList<NewM3UItem> = arrayListOf()
