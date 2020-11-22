@@ -21,9 +21,8 @@ class ChannelsDownloader @Inject constructor(
     private val viewModel: ChannelsViewModel
 ){
 
-    fun downloadPlayerFile(phrase: String? = null) {
+    fun downloadPlayerFile() {
         val initialUrl = preferences.getInitialUrl()
-        Timber.d("INITIAL URL Channels $initialUrl")
         val fileBoxRequest = initialUrl?.let { FileBoxRequest(it) }
 
         val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
@@ -40,7 +39,6 @@ class ChannelsDownloader @Inject constructor(
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ fileBoxResponse ->
                         when (fileBoxResponse) {
-                            is FileBoxResponse.Started -> TODO()
                             is FileBoxResponse.Downloading -> {
                                 val progress: Float = fileBoxResponse.progress
                                 val ongoingRecord: Record = fileBoxResponse.record
@@ -50,7 +48,7 @@ class ChannelsDownloader @Inject constructor(
                                 val savedPath = fileBoxResponse.record.getReadableFilePath()
 
                                 preferences.setFilePath(savedRecord.decryptedFilePath.toString())
-                                savedRecord.decryptedFilePath?.let { it -> loadChannels(it, phrase) }
+                                savedRecord.decryptedFilePath?.let { it -> loadChannels(it) }
                             }
                             is FileBoxResponse.Error -> {
                                 val savedRecord: Record = fileBoxResponse.record
@@ -62,16 +60,11 @@ class ChannelsDownloader @Inject constructor(
         }
     }
 
-    fun loadChannels(name: String, phrase: String?) {
+    fun loadChannels(name: String) {
         val parser = M3UParser()
         val inputStream = FileInputStream(File(name))
         val playlist = parser.parseFile(inputStream)
-        if (phrase.isNullOrEmpty()) {
-            viewModel.onFetchedChannels.postValue(playlist.playlistItems)
-        } else {
-            val filteredPlaylist = playlist.filterByPhrase(phrase)
-            viewModel.onFetchedChannels.postValue(filteredPlaylist)
-        }
+        viewModel.onFetchedChannels.postValue(playlist.playlistItems)
     }
 
     fun loadChannelsNoUpdate(phrase: String?) {

@@ -12,8 +12,15 @@ class InputViewModel @ViewModelInject constructor(
     val onUrlIsValid = SingleLiveEvent<String>()
 
     fun validateUrl(url: String) {
-        onUrlIsValid.invoke(url)
-        //TODO uncomment once validation is done
-//        preferences.setInitialUrl(url)
+        url.apply {
+            saveUrlIfNeeded(this)
+            onUrlIsValid.invoke(this)
+        }
+    }
+
+    private fun saveUrlIfNeeded(url: String) {
+        if (preferences.getInitialUrl() == null){
+            preferences.setInitialUrl(url)
+        }
     }
 }
