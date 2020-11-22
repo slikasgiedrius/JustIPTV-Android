@@ -48,11 +48,11 @@ class M3UParser {
                         dataArray[0].substring(dataArray[0].indexOf(EXT_LOGO) + EXT_LOGO.length)
                             .replace("=", "").replace("\"", "").replace("\n", "")
                     playlistItem.itemDuration = duration
-                    playlistItem.itemIcon = icon
+                    playlistItem.itemLogo = icon
                 } else {
                     val duration = dataArray[0].replace(":", "").replace("\n", "")
                     playlistItem.itemDuration = duration
-                    playlistItem.itemIcon = ""
+                    playlistItem.itemLogo = ""
                 }
                 try {
                     val url =

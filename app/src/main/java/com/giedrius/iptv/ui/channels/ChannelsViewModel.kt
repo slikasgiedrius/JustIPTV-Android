@@ -3,7 +3,7 @@ package com.giedrius.iptv.ui.channels
 import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import com.giedrius.iptv.data.model.parser.M3UItem
+import com.giedrius.iptv.data.model.parser.NewM3UItem
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -15,5 +15,5 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
 
-    val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
+    val onFetchedChannels = SingleLiveEvent<ArrayList<NewM3UItem>>()
 }

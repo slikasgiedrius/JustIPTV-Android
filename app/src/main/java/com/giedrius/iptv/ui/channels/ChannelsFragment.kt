@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
-import com.giedrius.iptv.data.model.parser.M3UItem
+import com.giedrius.iptv.data.model.parser.NewM3UItem
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
@@ -19,7 +19,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     private lateinit var adapter: ChannelsAdapter
 
     private val viewModel: ChannelsViewModel by viewModels()
-    private var items: ArrayList<M3UItem> = arrayListOf()
+    private var items: ArrayList<NewM3UItem> = arrayListOf()
 
     override fun onViewCreated(
         view: View,
@@ -33,7 +33,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         viewModel.channelsDownloader.downloadPlayerFile()
     }
 
-    override fun onPlaylistClickListener(item: M3UItem) {
+    override fun onPlaylistClickListener(item: NewM3UItem) {
         logClikedChannelData(item)
         val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
             item.itemUrl.toString()
@@ -60,10 +60,10 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         recyclerView.adapter = adapter
     }
 
-    private fun logClikedChannelData(channel: M3UItem) {
+    private fun logClikedChannelData(channel: NewM3UItem) {
         Timber.d("CLICKED ITEM Duration ${channel.itemDuration}")
         Timber.d("CLICKED ITEM Name ${channel.itemName}")
         Timber.d("CLICKED ITEM Url ${channel.itemUrl}")
-        Timber.d("CLICKED ITEM Icon ${channel.itemIcon}")
+        Timber.d("CLICKED ITEM Icon ${channel.itemLogo}")
     }
 }
