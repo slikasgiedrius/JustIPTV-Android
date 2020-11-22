@@ -6,17 +6,14 @@ import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
 
 class InputViewModel @ViewModelInject constructor(
-    private val preferences: Preferences
+    val preferences: Preferences
 ) : ViewModel() {
 
     val onUrlIsValid = SingleLiveEvent<String>()
 
     fun validateUrl(url: String) {
         onUrlIsValid.invoke(url)
-        saveInitialUrl(url)
+        //TODO uncomment once validation is done
+//        preferences.setInitialUrl(url)
     }
-
-    private fun saveInitialUrl(url: String) = preferences.pushString("initial_url", url)
-
-    fun getInitialUrl(): String? = preferences.pullString("initial_url")
 }

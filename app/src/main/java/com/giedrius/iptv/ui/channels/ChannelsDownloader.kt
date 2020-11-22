@@ -1,16 +1,11 @@
 package com.giedrius.iptv.ui.channels
 
 import android.content.Context
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.giedrius.iptv.data.model.parser.M3UItem
 import com.giedrius.iptv.data.model.parser.M3UParser
 import com.giedrius.iptv.utils.Preferences
-import com.giedrius.iptv.utils.SingleLiveEvent
 import com.giedrius.iptv.utils.extensions.filterByPhrase
 import com.lyrebirdstudio.fileboxlib.core.*
-import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
@@ -18,13 +13,13 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class ChannelsViewModel @ViewModelInject constructor(
-    @ApplicationContext private val application: Context,
-    private val preferences: Preferences
-) : ViewModel() {
-
-    val onFetchedChannels = SingleLiveEvent<ArrayList<M3UItem>>()
+class ChannelsDownloader @Inject constructor(
+    private val context: Context,
+    private val preferences: Preferences,
+    private val viewModel: ChannelsViewModel
+){
 
     fun downloadPlayerFile(phrase: String? = null) {
         val initialUrl = preferences.getInitialUrl()
@@ -37,9 +32,9 @@ class ChannelsViewModel @ViewModelInject constructor(
             .setDirectory(DirectoryType.CACHE)
             .build()
 
-        viewModelScope.launch {
+        viewModel.viewModelScope.launch {
             fileBoxRequest?.let {
-                FileBoxProvider.newInstance(application, fileBoxConfig)
+                FileBoxProvider.newInstance(context, fileBoxConfig)
                     .get(it)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -72,10 +67,10 @@ class ChannelsViewModel @ViewModelInject constructor(
         val inputStream = FileInputStream(File(name))
         val playlist = parser.parseFile(inputStream)
         if (phrase.isNullOrEmpty()) {
-            onFetchedChannels.postValue(playlist.playlistItems)
+            viewModel.onFetchedChannels.postValue(playlist.playlistItems)
         } else {
             val filteredPlaylist = playlist.filterByPhrase(phrase)
-            onFetchedChannels.postValue(filteredPlaylist)
+            viewModel.onFetchedChannels.postValue(filteredPlaylist)
         }
     }
 
@@ -85,6 +80,6 @@ class ChannelsViewModel @ViewModelInject constructor(
         val inputStream = FileInputStream(File(pathFromPrefs))
         val playlist = parser.parseFile(inputStream)
         val filteredPlaylist = playlist.filterByPhrase(phrase)
-        onFetchedChannels.postValue(filteredPlaylist)
+        viewModel.onFetchedChannels.postValue(filteredPlaylist)
     }
 }

@@ -12,13 +12,13 @@ import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 class ChannelsAdapter(
-    private var items: ArrayList<M3UItem>,
+    private var channels: ArrayList<M3UItem>,
     private val context: Context,
     private val recyclerViewClickListener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun getItemCount(): Int {
-        return items.size
+        return channels.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,17 +29,17 @@ class ChannelsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            recyclerViewClickListener.onPlaylistClickListener(items[position])
+            recyclerViewClickListener.onPlaylistClickListener(channels[position])
         }
-        holder.name.text = items[position].itemName
+        holder.channelName.text = channels[position].itemName
     }
 
-    fun update(newItems:ArrayList<M3UItem>){
-        this.items = newItems
+    fun update(newItems: ArrayList<M3UItem>) {
+        this.channels = newItems
         this.notifyDataSetChanged()
     }
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val name: TextView = view.tv_name
+    val channelName: TextView = view.tvChannelName
 }

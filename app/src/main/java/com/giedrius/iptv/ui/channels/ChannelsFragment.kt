@@ -15,9 +15,9 @@ import kotlinx.android.synthetic.main.channels_fragment.*
 @AndroidEntryPoint
 class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClickListener {
 
-    private val viewModel: ChannelsViewModel by viewModels()
-    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: ChannelsAdapter
+
+    private val viewModel: ChannelsViewModel by viewModels()
     private var items: ArrayList<M3UItem> = arrayListOf()
 
     override fun onViewCreated(
@@ -47,13 +47,12 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
 
     private fun setupListeners() {
         btnSearch.setOnClickListener {
-//            viewModel.downloadFile(args.url, etSearch.text.toString())
             viewModel.loadChannelsNoUpdate(etSearch.text.toString())
         }
     }
 
     private fun setupRecyclerView() {
-        linearLayoutManager = LinearLayoutManager(context)
+        val linearLayoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = linearLayoutManager
         adapter = ChannelsAdapter(items, requireContext(), this)
         recyclerView.adapter = adapter
