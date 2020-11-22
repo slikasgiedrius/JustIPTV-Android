@@ -19,13 +19,22 @@ class NewM3UParser {
                 val playlistItem = M3UItem()
                 val dataArray = currentLine.split(",").toTypedArray()
                 if (dataArray[0].contains(EXT_LOGO)) {
-                    val duration = dataArray[0].substring(0, dataArray[0].indexOf(EXT_LOGO)).replace(":", "").replace("\n", "")
-                    val icon = dataArray[0].substring(dataArray[0].indexOf(EXT_LOGO) + EXT_LOGO.length).replace("=", "").replace("\"", "").substringBefore(" ")
+                    val duration = dataArray[0]
+                        .substring(0, dataArray[0].indexOf(EXT_LOGO))
+                        .replace(":", "")
+                        .replace("\n", "")
+
+                    val icon = dataArray[0]
+                        .substring(dataArray[0].indexOf(EXT_LOGO) + EXT_LOGO.length)
+                        .replace("=", "")
+                        .replace("\"", "")
+                        .substringBefore(" ")
 
                     playlistItem.itemDuration = duration
                     playlistItem.itemIcon = icon
                 } else {
                     val duration = dataArray[0].replace(":", "").replace("\n", "")
+
                     playlistItem.itemDuration = duration
                     playlistItem.itemIcon = ""
                 }
