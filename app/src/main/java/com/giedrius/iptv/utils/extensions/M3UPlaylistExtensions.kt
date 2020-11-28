@@ -1,10 +1,10 @@
 package com.giedrius.iptv.utils.extensions
 
-import com.giedrius.iptv.data.parser.NewM3UItem
+import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.data.parser.NewM3UPlaylist
 
-fun NewM3UPlaylist.skipBlanks(): ArrayList<NewM3UItem> {
-    val playlistNoBlanks: ArrayList<NewM3UItem> = arrayListOf()
+fun NewM3UPlaylist.skipBlanks(): ArrayList<Channel> {
+    val playlistNoBlanks: ArrayList<Channel> = arrayListOf()
     this.playlistItems?.forEach {
         if (!it.itemName.isNullOrEmpty()) {
             playlistNoBlanks.add(it)
@@ -13,9 +13,9 @@ fun NewM3UPlaylist.skipBlanks(): ArrayList<NewM3UItem> {
     return playlistNoBlanks
 }
 
-fun NewM3UPlaylist.filterByPhrase(phrase: String?): ArrayList<NewM3UItem> {
+fun NewM3UPlaylist.filterByPhrase(phrase: String?): ArrayList<Channel> {
     val noBlanks = this.skipBlanks()
-    val noBlanksByPhrase = arrayListOf<NewM3UItem>()
+    val noBlanksByPhrase = arrayListOf<Channel>()
     noBlanks.forEach {
         if (it.itemName!!.contains(phrase!!)) {
             noBlanksByPhrase.add(it)

@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
-import com.giedrius.iptv.data.parser.NewM3UItem
+import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
@@ -19,7 +19,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     private lateinit var adapter: ChannelsAdapter
 
     private val viewModel: ChannelsViewModel by viewModels()
-    private var items: ArrayList<NewM3UItem> = arrayListOf()
+    private var items: ArrayList<Channel> = arrayListOf()
 
     override fun onViewCreated(
         view: View,
@@ -33,7 +33,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         viewModel.channelsDownloader.checkForSavedPlaylist()
     }
 
-    override fun onPlaylistClickListener(item: NewM3UItem) {
+    override fun onPlaylistClickListener(item: Channel) {
         Timber.d("clicked item $item")
         viewModel.saveChannelToDatabase(item)
 //        viewModel.deleteAllUsers()

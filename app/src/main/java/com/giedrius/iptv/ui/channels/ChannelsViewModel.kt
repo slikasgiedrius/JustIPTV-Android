@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.giedrius.iptv.data.parser.NewM3UItem
+import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.room.ChannelRepository
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
@@ -20,9 +20,9 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
 
-    val onFetchedChannels = SingleLiveEvent<ArrayList<NewM3UItem>>()
+    val onFetchedChannels = SingleLiveEvent<ArrayList<Channel>>()
 
-    fun saveChannelToDatabase(channel: NewM3UItem) {
+    fun saveChannelToDatabase(channel: Channel) {
         viewModelScope.launch(Dispatchers.IO) {
             channelRepository.addChannel(channel)
         }
