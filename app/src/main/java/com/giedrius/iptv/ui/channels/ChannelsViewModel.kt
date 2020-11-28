@@ -27,13 +27,12 @@ class ChannelsViewModel @ViewModelInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             channelRepository.addChannel(
                 Channel(
-                    id = 0,
                     itemId = channel.itemId,
                     itemName = channel.itemName,
                     itemLogo = channel.itemLogo,
                     itemGroup = channel.itemGroup,
                     itemUrl = channel.itemUrl,
-                    itemDuration = ""
+                    itemDuration = channel.itemDuration
                 )
             )
         }
