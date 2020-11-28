@@ -46,6 +46,10 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
             adapter.update(it)
         }
+        viewModel.channelRepository.readAllData.observe(viewLifecycleOwner) {
+            Timber.d("All data $it")
+        }
+
     }
 
     private fun setupListeners() {

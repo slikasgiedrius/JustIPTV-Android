@@ -16,10 +16,10 @@ import kotlinx.coroutines.launch
 class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
     private val preferences: Preferences,
-    private val channelRepository: ChannelRepository
+    val channelRepository: ChannelRepository
 ) : ViewModel() {
 
-    var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this, channelRepository)
+    var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
 
     val onFetchedChannels = SingleLiveEvent<ArrayList<NewM3UItem>>()
 

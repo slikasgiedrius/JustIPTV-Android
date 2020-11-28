@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface ChannelDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addChannel(channel: Channel)
 
     @Query("SELECT * FROM channel_table ORDER BY id ASC")

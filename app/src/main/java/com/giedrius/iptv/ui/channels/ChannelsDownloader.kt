@@ -21,14 +21,11 @@ import javax.inject.Inject
 class ChannelsDownloader @Inject constructor(
     private val context: Context,
     private val preferences: Preferences,
-    private val viewModel: ChannelsViewModel,
-    private val channelRepository: ChannelRepository
+    private val viewModel: ChannelsViewModel
 ) {
 
     fun checkForSavedPlaylist() {
         downloadPlayerFile()
-        val allData = channelRepository.readAllData
-        Timber.d("All data ${allData.value}")
     }
 
     private fun downloadPlayerFile() {
