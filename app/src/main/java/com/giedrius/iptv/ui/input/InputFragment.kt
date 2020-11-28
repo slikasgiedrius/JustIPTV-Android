@@ -28,9 +28,10 @@ class InputFragment : Fragment(R.layout.input_fragment) {
 
     private fun setupInitialUrl() {
         val initialUrl = viewModel.preferences.getInitialUrl()
-        Timber.d("INITIAL URL $initialUrl")
         if (initialUrl == null) {
             editTextTextMultiLine.setText("http://uran.iptvboss.net:80/get.php?username=GiedriusSlikas&password=GiedriusSlikas&type=m3u_plus&output=ts")
+        } else {
+            viewModel.validateUrl(editTextTextMultiLine.text.toString())
         }
     }
 
