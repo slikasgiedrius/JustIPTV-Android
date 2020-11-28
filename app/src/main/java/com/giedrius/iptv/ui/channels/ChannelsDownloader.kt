@@ -19,9 +19,18 @@ class ChannelsDownloader @Inject constructor(
     private val context: Context,
     private val preferences: Preferences,
     private val viewModel: ChannelsViewModel
-){
+) {
 
-    fun downloadPlayerFile() {
+    fun checkForSavedPlaylist() {
+        val savedPlaylist = preferences.getPlaylist()
+        if (savedPlaylist != null) {
+            viewModel.onFetchedChannels.postValue(savedPlaylist.playlistItems)
+        } else {
+            downloadPlayerFile()
+        }
+    }
+
+    private fun downloadPlayerFile() {
         val initialUrl = preferences.getInitialUrl()
         val fileBoxRequest = initialUrl?.let { FileBoxRequest(it) }
 
@@ -64,6 +73,7 @@ class ChannelsDownloader @Inject constructor(
         val parser = NewM3UParser()
         val inputStream = FileInputStream(File(name))
         val playlist = parser.parseFile(inputStream)
+//        preferences.setPlaylist(playlist)
         viewModel.onFetchedChannels.postValue(playlist.playlistItems)
     }
 

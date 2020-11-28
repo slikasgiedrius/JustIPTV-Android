@@ -30,7 +30,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         handleObservers()
         setupListeners()
         setupRecyclerView()
-        viewModel.channelsDownloader.downloadPlayerFile()
+        viewModel.channelsDownloader.checkForSavedPlaylist()
     }
 
     override fun onPlaylistClickListener(item: NewM3UItem) {
