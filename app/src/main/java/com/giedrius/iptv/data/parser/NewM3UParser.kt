@@ -8,6 +8,7 @@ class NewM3UParser {
 
     private val m3UPlaylist = NewM3UPlaylist()
     private val playlistItems = ArrayList<NewM3UItem>()
+    private var autoIncrement = 0
 
     fun parseFile(fileData: InputStream): NewM3UPlaylist {
         val data = convertStreamToString(fileData)
@@ -15,16 +16,16 @@ class NewM3UParser {
 
         for (currentLine in linesArray) {
             if (!currentLine.contains(EXT_M3U)) {
-                val playlistItem = NewM3UItem()
                 val dataArray = currentLine.split(",").toTypedArray()
 
-                getId(playlistItem, dataArray[0])
-                getLogo(playlistItem, dataArray[0])
-                getGroup(playlistItem, dataArray[0])
-                getName(playlistItem, dataArray[0])
-                getUrl(playlistItem, dataArray[1])
+                val id = getId(dataArray[0])
+                val name = getName(dataArray[0])
+                val logo = getLogo(dataArray[0])
+                val group = getGroup(dataArray[0])
+                val url = getUrl(dataArray[1])
 
-                playlistItems.add(playlistItem)
+                playlistItems.add(NewM3UItem(autoIncrement, id, name, logo, group, url, ""))
+                autoIncrement++
             }
         }
 
@@ -32,70 +33,79 @@ class NewM3UParser {
         return m3UPlaylist
     }
 
-    private fun getId(playlistItem: NewM3UItem, data: String) {
+    private fun getId(data: String): String? {
+        var id: String? = null
         try {
-            val id = data
+            val formattedId = data
                 .substring(data.indexOf(EXT_ID) + EXT_ID.length)
                 .replace("=", "")
                 .replace("\"", "")
                 .substringBefore(" ")
 
-            playlistItem.itemId = id
+            id = formattedId
         } catch (e: Exception) {
             Timber.e("Error while parsing id $e")
         }
+        return id
     }
 
-    private fun getName(playlistItem: NewM3UItem, data: String) {
+    private fun getName(data: String): String? {
+        var name: String? = null
         try {
-            val name = data
+            val formattedName = data
                 .substring(data.indexOf(EXT_NAME) + EXT_NAME.length)
                 .replace("=", "")
                 .substringBefore("\" ")
                 .replace("\"", "")
 
-            playlistItem.itemName = name
+            name = formattedName
         } catch (e: Exception) {
             Timber.e("Error while parsing name $e")
         }
+        return name
     }
 
-    private fun getLogo(playlistItem: NewM3UItem, data: String) {
+    private fun getLogo(data: String): String? {
+        var logo: String? = null
         try {
-            val icon = data
+            val formattedLogo = data
                 .substring(data.indexOf(EXT_LOGO) + EXT_LOGO.length)
                 .replace("=", "")
                 .replace("\"", "")
                 .substringBefore(" ")
 
-            playlistItem.itemLogo = icon
+            logo = formattedLogo
         } catch (e: Exception) {
             Timber.e("Error while parsing logo $e")
         }
+        return logo
     }
 
-    private fun getGroup(playlistItem: NewM3UItem, data: String) {
+    private fun getGroup(data: String): String? {
+        var group: String? = null
         try {
-            val group = data
+            val formattedGroup = data
                 .substring(data.indexOf(EXT_GROUP) + EXT_GROUP.length)
                 .replace("=", "")
                 .replace("\"", "")
                 .substringBeforeLast("\" ")
 
-            playlistItem.itemGroup = group
+            group = formattedGroup
         } catch (e: Exception) {
             Timber.e("Error while parsing group $e")
         }
+        return group
     }
 
-    private fun getUrl(playlistItem: NewM3UItem, data: String) {
+    private fun getUrl(data: String): String? {
+        var url: String? = null
         try {
-            val url = data
+            val formattedUrl = data
                 .substring(data.indexOf(EXT_URL))
                 .replace("\n", "")
                 .replace("\r", "")
 
-            playlistItem.itemUrl = url
+            url = formattedUrl
         } catch (e: Exception) {
             when (e) {
                 is StringIndexOutOfBoundsException -> {
@@ -106,6 +116,8 @@ class NewM3UParser {
                 }
             }
         }
+
+        return url
     }
 
     private fun convertStreamToString(inputStream: InputStream): String {
