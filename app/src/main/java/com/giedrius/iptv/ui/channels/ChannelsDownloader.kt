@@ -26,20 +26,9 @@ class ChannelsDownloader @Inject constructor(
 ) {
 
     fun checkForSavedPlaylist() {
-        val savedPlaylist = preferences.getPlaylist()
-        if (savedPlaylist != null) {
-            val allData = channelRepository.readAllData
-            Timber.d("All data $allData")
-            viewModel.onFetchedChannels.postValue(savedPlaylist.playlistItems)
-        } else {
-            downloadPlayerFile()
-        }
-    }
-
-    fun addChannel(channel: Channel) {
-        viewModel.viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.addChannel(channel)
-        }
+        downloadPlayerFile()
+        val allData = channelRepository.readAllData
+        Timber.d("All data ${allData.value}")
     }
 
     private fun downloadPlayerFile() {
