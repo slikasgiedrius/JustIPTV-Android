@@ -19,7 +19,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     private lateinit var adapter: ChannelsAdapter
 
     private val viewModel: ChannelsViewModel by viewModels()
-    private var items: ArrayList<Channel> = arrayListOf()
+    private var items: List<Channel> = arrayListOf()
 
     override fun onViewCreated(
         view: View,
@@ -27,16 +27,12 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        handleObservers()
         setupListeners()
         setupRecyclerView()
-        viewModel.channelsDownloader.checkForSavedPlaylist()
+        handleObservers()
     }
 
     override fun onPlaylistClickListener(item: Channel) {
-        Timber.d("clicked item $item")
-        viewModel.saveChannelToDatabase(item)
-//        viewModel.deleteAllUsers()
         val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
             item.itemUrl.toString()
         )
@@ -44,18 +40,19 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     }
 
     private fun handleObservers() {
+        viewModel.channelRepository.savedChannels.observe(viewLifecycleOwner) {
+            items = it
+            adapter.update(it)
+            viewModel.detectIfDownloadNeeded(items.count())
+        }
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
             adapter.update(it)
         }
-        viewModel.channelRepository.readAllData.observe(viewLifecycleOwner) {
-            Timber.d("All data $it")
-        }
-
     }
 
     private fun setupListeners() {
         btnSearch.setOnClickListener {
-            viewModel.channelsDownloader.loadChannelsNoUpdate(etSearch.text.toString())
+            viewModel.loadChannelsNoUpdate(etSearch.text.toString())
         }
     }
 

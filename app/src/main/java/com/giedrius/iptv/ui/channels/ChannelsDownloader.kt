@@ -22,11 +22,7 @@ class ChannelsDownloader @Inject constructor(
     private val viewModel: ChannelsViewModel
 ) {
 
-    fun checkForSavedPlaylist() {
-        downloadPlayerFile()
-    }
-
-    private fun downloadPlayerFile() {
+    fun downloadPlayerFile() {
         val initialUrl = preferences.getInitialUrl()
         val fileBoxRequest = initialUrl?.let { FileBoxRequest(it) }
 
@@ -53,7 +49,7 @@ class ChannelsDownloader @Inject constructor(
                                 val savedPath = fileBoxResponse.record.getReadableFilePath()
 
                                 preferences.setFilePath(savedRecord.decryptedFilePath.toString())
-                                savedRecord.decryptedFilePath?.let { it -> loadChannels(it) }
+                                savedRecord.decryptedFilePath?.let { it -> viewModel.loadChannels(it) }
                             }
                             is FileBoxResponse.Error -> {
                                 val savedRecord: Record = fileBoxResponse.record
@@ -63,22 +59,5 @@ class ChannelsDownloader @Inject constructor(
                     }, Timber::e)
             }
         }
-    }
-
-    fun loadChannels(name: String) {
-        val parser = PlaylistParser()
-        val inputStream = FileInputStream(File(name))
-        val playlist = parser.parseFile(inputStream)
-//        preferences.setPlaylist(playlist)
-        viewModel.onFetchedChannels.postValue(playlist.playlistItems)
-    }
-
-    fun loadChannelsNoUpdate(phrase: String?) {
-        val parser = PlaylistParser()
-        val pathFromPrefs = preferences.getFilePath()
-        val inputStream = FileInputStream(File(pathFromPrefs))
-        val playlist = parser.parseFile(inputStream)
-        val filteredPlaylist = playlist.filterByPhrase(phrase)
-        viewModel.onFetchedChannels.postValue(filteredPlaylist)
     }
 }

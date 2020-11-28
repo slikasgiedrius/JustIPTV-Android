@@ -19,6 +19,9 @@ interface ChannelDao {
     @Query("DELETE FROM channel_table")
     suspend fun deleteAllChannels()
 
-    @Query("SELECT * FROM channel_table ORDER BY itemUrl ASC")
-    fun readAllData(): LiveData<List<Channel>>
+    @Query("SELECT * FROM channel_table ORDER BY id ASC")
+    fun getSavedChannels(): LiveData<List<Channel>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun uploadChannels(channels: List<Channel>)
 }
