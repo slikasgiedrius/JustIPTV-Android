@@ -36,6 +36,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     override fun onPlaylistClickListener(item: NewM3UItem) {
         Timber.d("clicked item $item")
         viewModel.saveChannelToDatabase(item)
+//        viewModel.deleteAllUsers()
         val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
             item.itemUrl.toString()
         )

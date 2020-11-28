@@ -38,4 +38,10 @@ class ChannelsViewModel @ViewModelInject constructor(
             )
         }
     }
+
+    fun deleteAllUsers() {
+        viewModelScope.launch(Dispatchers.IO) {
+            channelRepository.deleteAllUsers()
+        }
+    }
 }
