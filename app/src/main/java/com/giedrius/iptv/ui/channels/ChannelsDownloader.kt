@@ -3,11 +3,14 @@ package com.giedrius.iptv.ui.channels
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.parser.NewM3UParser
+import com.giedrius.iptv.room.Channel
+import com.giedrius.iptv.room.ChannelRepository
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.extensions.filterByPhrase
 import com.lyrebirdstudio.fileboxlib.core.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -18,15 +21,24 @@ import javax.inject.Inject
 class ChannelsDownloader @Inject constructor(
     private val context: Context,
     private val preferences: Preferences,
-    private val viewModel: ChannelsViewModel
+    private val viewModel: ChannelsViewModel,
+    private val channelRepository: ChannelRepository
 ) {
 
     fun checkForSavedPlaylist() {
         val savedPlaylist = preferences.getPlaylist()
         if (savedPlaylist != null) {
+            val allData = channelRepository.readAllData
+            Timber.d("All data $allData")
             viewModel.onFetchedChannels.postValue(savedPlaylist.playlistItems)
         } else {
             downloadPlayerFile()
+        }
+    }
+
+    fun addChannel(channel: Channel) {
+        viewModel.viewModelScope.launch(Dispatchers.IO) {
+            channelRepository.addChannel(channel)
         }
     }
 
@@ -40,7 +52,7 @@ class ChannelsDownloader @Inject constructor(
             .setDirectory(DirectoryType.CACHE)
             .build()
 
-        viewModel.viewModelScope.launch {
+        viewModel.viewModelScope.launch(Dispatchers.IO) {
             fileBoxRequest?.let {
                 FileBoxProvider.newInstance(context, fileBoxConfig)
                     .get(it)
