@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.giedrius.iptv.R
-import com.giedrius.iptv.data.parser.NewM3UItem
+import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 class ChannelsAdapter(
-    private var channels: ArrayList<NewM3UItem>,
+    private var channels: List<Channel>,
     private val context: Context,
     private val recyclerViewClickListener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<ViewHolder>() {
@@ -37,7 +37,7 @@ class ChannelsAdapter(
         holder.channelLogo.load(channels[position].itemLogo)
     }
 
-    fun update(newItems: ArrayList<NewM3UItem>) {
+    fun update(newItems: List<Channel>) {
         this.channels = newItems
         this.notifyDataSetChanged()
     }

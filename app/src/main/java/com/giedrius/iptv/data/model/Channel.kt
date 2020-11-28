@@ -1,9 +1,15 @@
 package com.giedrius.iptv.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "channel_table")
 data class Channel(
-    val id: String?,
-    val name: String?,
-    val logoUrl: String?,
-    val group: String?,
-    val url: String?
+    @PrimaryKey var id: Int,
+    var itemId: String?,
+    var itemName: String?,
+    var itemLogo: String?,
+    var itemGroup: String?,
+    var itemUrl: String?,
+    var itemDuration: String?
 )

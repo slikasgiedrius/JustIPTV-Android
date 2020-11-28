@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
-import com.giedrius.iptv.data.parser.NewM3UItem
+import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
@@ -19,7 +19,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     private lateinit var adapter: ChannelsAdapter
 
     private val viewModel: ChannelsViewModel by viewModels()
-    private var items: ArrayList<NewM3UItem> = arrayListOf()
+    private var items: List<Channel> = arrayListOf()
 
     override fun onViewCreated(
         view: View,
@@ -27,14 +27,12 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        handleObservers()
         setupListeners()
         setupRecyclerView()
-        viewModel.channelsDownloader.downloadPlayerFile()
+        handleObservers()
     }
 
-    override fun onPlaylistClickListener(item: NewM3UItem) {
-        logClikedChannelData(item)
+    override fun onPlaylistClickListener(item: Channel) {
         val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
             item.itemUrl.toString()
         )
@@ -42,6 +40,11 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     }
 
     private fun handleObservers() {
+        viewModel.channelRepository.savedChannels.observe(viewLifecycleOwner) {
+            items = it
+            adapter.update(it)
+            viewModel.detectIfDownloadNeeded(items.count())
+        }
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
             adapter.update(it)
         }
@@ -49,7 +52,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
 
     private fun setupListeners() {
         btnSearch.setOnClickListener {
-            viewModel.channelsDownloader.loadChannelsNoUpdate(etSearch.text.toString())
+            viewModel.loadChannelsNoUpdate(etSearch.text.toString())
         }
     }
 
@@ -58,12 +61,5 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         recyclerView.layoutManager = linearLayoutManager
         adapter = ChannelsAdapter(items, requireContext(), this)
         recyclerView.adapter = adapter
-    }
-
-    private fun logClikedChannelData(channel: NewM3UItem) {
-        Timber.d("CLICKED ITEM Duration ${channel.itemDuration}")
-        Timber.d("CLICKED ITEM Name ${channel.itemName}")
-        Timber.d("CLICKED ITEM Url ${channel.itemUrl}")
-        Timber.d("CLICKED ITEM Icon ${channel.itemLogo}")
     }
 }
