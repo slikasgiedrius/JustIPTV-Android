@@ -34,7 +34,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     }
 
     override fun onPlaylistClickListener(item: NewM3UItem) {
-        logClikedChannelData(item)
+        Timber.d("clicked item $item")
         val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
             item.itemUrl.toString()
         )
@@ -58,12 +58,5 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         recyclerView.layoutManager = linearLayoutManager
         adapter = ChannelsAdapter(items, requireContext(), this)
         recyclerView.adapter = adapter
-    }
-
-    private fun logClikedChannelData(channel: NewM3UItem) {
-        Timber.d("CLICKED ITEM Duration ${channel.itemDuration}")
-        Timber.d("CLICKED ITEM Name ${channel.itemName}")
-        Timber.d("CLICKED ITEM Url ${channel.itemUrl}")
-        Timber.d("CLICKED ITEM Icon ${channel.itemLogo}")
     }
 }

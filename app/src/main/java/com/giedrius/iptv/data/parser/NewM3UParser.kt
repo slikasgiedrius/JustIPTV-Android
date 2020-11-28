@@ -18,13 +18,13 @@ class NewM3UParser {
                 val playlistItem = NewM3UItem()
                 val dataArray = currentLine.split(",").toTypedArray()
 
-                when {
-                    dataArray[0].contains(EXT_LOGO) -> handleLogo(playlistItem, dataArray[0])
-                    !dataArray[0].contains(EXT_LOGO) -> handleNoLogo(playlistItem, dataArray[0])
-                }
+                getId(playlistItem, dataArray[0])
+                getLogo(playlistItem, dataArray[0])
+                getGroup(playlistItem, dataArray[0])
+                getName(playlistItem, dataArray[0])
+                getUrl(playlistItem, dataArray[1])
 
-                extractNameAndUrl(playlistItem, dataArray[1])
-
+                playlistItems.add(playlistItem)
             }
         }
 
@@ -32,39 +32,80 @@ class NewM3UParser {
         return m3UPlaylist
     }
 
-    private fun handleLogo(playlistItem: NewM3UItem, data: String) {
-        val duration = data
-            .substring(0, data.indexOf(EXT_LOGO))
-            .replace(":", "")
-            .replace("\n", "")
-
-        val icon = data
-            .substring(data.indexOf(EXT_LOGO) + EXT_LOGO.length)
-            .replace("=", "")
-            .replace("\"", "")
-            .substringBefore(" ")
-
-        playlistItem.itemDuration = duration
-        playlistItem.itemLogo = icon
-    }
-
-    private fun handleNoLogo(playlistItem: NewM3UItem, data: String) {
-        val duration = data.replace(":", "").replace("\n", "")
-
-        playlistItem.itemDuration = duration
-        playlistItem.itemLogo = ""
-    }
-
-    private fun extractNameAndUrl(playlistItem: NewM3UItem, data: String) {
+    private fun getId(playlistItem: NewM3UItem, data: String) {
         try {
-            val url = data.substring(data.indexOf(EXT_URL)).replace("\n", "").replace("\r", "")
-            val name = data.substring(0, data.indexOf(EXT_URL)).replace("\n", "")
+            val id = data
+                .substring(data.indexOf(EXT_ID) + EXT_ID.length)
+                .replace("=", "")
+                .replace("\"", "")
+                .substringBefore(" ")
+
+            playlistItem.itemId = id
+        } catch (e: Exception) {
+            Timber.e("Error while parsing id $e")
+        }
+    }
+
+    private fun getName(playlistItem: NewM3UItem, data: String) {
+        try {
+            val name = data
+                .substring(data.indexOf(EXT_NAME) + EXT_NAME.length)
+                .replace("=", "")
+                .substringBefore("\" ")
+                .replace("\"", "")
+
             playlistItem.itemName = name
+        } catch (e: Exception) {
+            Timber.e("Error while parsing name $e")
+        }
+    }
+
+    private fun getLogo(playlistItem: NewM3UItem, data: String) {
+        try {
+            val icon = data
+                .substring(data.indexOf(EXT_LOGO) + EXT_LOGO.length)
+                .replace("=", "")
+                .replace("\"", "")
+                .substringBefore(" ")
+
+            playlistItem.itemLogo = icon
+        } catch (e: Exception) {
+            Timber.e("Error while parsing logo $e")
+        }
+    }
+
+    private fun getGroup(playlistItem: NewM3UItem, data: String) {
+        try {
+            val group = data
+                .substring(data.indexOf(EXT_GROUP) + EXT_GROUP.length)
+                .replace("=", "")
+                .replace("\"", "")
+                .substringBeforeLast("\" ")
+
+            playlistItem.itemGroup = group
+        } catch (e: Exception) {
+            Timber.e("Error while parsing group $e")
+        }
+    }
+
+    private fun getUrl(playlistItem: NewM3UItem, data: String) {
+        try {
+            val url = data
+                .substring(data.indexOf(EXT_URL))
+                .replace("\n", "")
+                .replace("\r", "")
+
             playlistItem.itemUrl = url
         } catch (e: Exception) {
-            Timber.e("Error while parsing file $e")
+            when (e) {
+                is StringIndexOutOfBoundsException -> {
+                    Timber.e("Error URL is too long")
+                }
+                else -> {
+                    Timber.e("Error while parsing url $e")
+                }
+            }
         }
-        playlistItems.add(playlistItem)
     }
 
     private fun convertStreamToString(inputStream: InputStream): String {
