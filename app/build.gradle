@@ -108,10 +108,15 @@ dependencies {
     //Gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    //Room
+    implementation "androidx.room:room-runtime:2.2.5"
+    implementation "androidx.room:room-ktx:2.2.5"
+
     //Tests
     testImplementation 'junit:junit:4.13.1'
 
     //Annotation processors
     kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
+    kapt "androidx.room:room-compiler:2.2.5"
 }
