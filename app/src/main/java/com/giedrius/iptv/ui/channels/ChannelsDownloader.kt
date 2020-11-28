@@ -2,7 +2,7 @@ package com.giedrius.iptv.ui.channels
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import com.giedrius.iptv.data.parser.NewM3UParser
+import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.extensions.filterByPhrase
 import com.lyrebirdstudio.fileboxlib.core.*
@@ -66,7 +66,7 @@ class ChannelsDownloader @Inject constructor(
     }
 
     fun loadChannels(name: String) {
-        val parser = NewM3UParser()
+        val parser = PlaylistParser()
         val inputStream = FileInputStream(File(name))
         val playlist = parser.parseFile(inputStream)
 //        preferences.setPlaylist(playlist)
@@ -74,7 +74,7 @@ class ChannelsDownloader @Inject constructor(
     }
 
     fun loadChannelsNoUpdate(phrase: String?) {
-        val parser = NewM3UParser()
+        val parser = PlaylistParser()
         val pathFromPrefs = preferences.getFilePath()
         val inputStream = FileInputStream(File(pathFromPrefs))
         val playlist = parser.parseFile(inputStream)

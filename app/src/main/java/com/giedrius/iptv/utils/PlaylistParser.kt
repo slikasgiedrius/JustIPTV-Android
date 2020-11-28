@@ -1,17 +1,17 @@
-package com.giedrius.iptv.data.parser
+package com.giedrius.iptv.utils
 
 import com.giedrius.iptv.data.model.Channel
+import com.giedrius.iptv.data.model.Playlist
 import timber.log.Timber
 import java.io.InputStream
 import java.util.*
 
-class NewM3UParser {
+class PlaylistParser {
 
-    private val m3UPlaylist = NewM3UPlaylist()
     private val playlistItems = ArrayList<Channel>()
     private var autoIncrement = 0
 
-    fun parseFile(fileData: InputStream): NewM3UPlaylist {
+    fun parseFile(fileData: InputStream): Playlist {
         val data = convertStreamToString(fileData)
         val linesArray = data.split(EXT_INF).toTypedArray()
 
@@ -30,8 +30,7 @@ class NewM3UParser {
             }
         }
 
-        m3UPlaylist.playlistItems = playlistItems
-        return m3UPlaylist
+        return Playlist(playlistItems = playlistItems)
     }
 
     private fun getId(data: String): String? {
