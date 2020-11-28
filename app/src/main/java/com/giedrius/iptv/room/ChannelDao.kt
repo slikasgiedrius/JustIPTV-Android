@@ -14,7 +14,7 @@ interface ChannelDao {
     suspend fun updateChannel(channel: Channel)
 
     @Delete
-    suspend fun deleteUser(channel: Channel)
+    suspend fun deleteChannel(channel: Channel)
 
     @Query("DELETE FROM channel_table")
     suspend fun deleteAllChannels()

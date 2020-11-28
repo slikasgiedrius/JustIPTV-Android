@@ -5,7 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.Channel
-import com.giedrius.iptv.room.ChannelRepository
+import com.giedrius.iptv.data.repository.ChannelRepository
 import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
@@ -33,7 +33,7 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     fun deleteAllChannels() {
         viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.deleteAllUsers()
+            channelRepository.deleteAllChannels()
         }
     }
 
@@ -41,9 +41,7 @@ class ChannelsViewModel @ViewModelInject constructor(
         val parser = PlaylistParser()
         val inputStream = FileInputStream(File(name))
         val playlist = parser.parseFile(inputStream)
-//        preferences.setPlaylist(playlist)
         playlist.playlistItems?.let { saveChannels(it) }
-//        onFetchedChannels.postValue(playlist.playlistItems)
     }
 
     fun loadChannelsNoUpdate(phrase: String?) {
