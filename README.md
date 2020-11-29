@@ -4,4 +4,13 @@
 Learning based project to keep up with up to date technologies:
 
 Kotlin  
-Hilt
+MVVM  
+Hilt  
+Room  
+Coroutines  
+LiveData  
+Navigation component  
+Coil  
+
+
+
