@@ -11,7 +11,6 @@ import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClickListener {
@@ -40,7 +39,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     }
 
     private fun handleObservers() {
-        viewModel.channelRepository.savedChannels.observe(viewLifecycleOwner) {
+        viewModel.channelsRepository.savedChannels.observe(viewLifecycleOwner) {
             items = it
             adapter.update(it)
             viewModel.detectIfDownloadNeeded(items.count())

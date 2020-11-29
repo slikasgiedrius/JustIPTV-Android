@@ -5,7 +5,7 @@ import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.room.ChannelDao
 import javax.inject.Inject
 
-class ChannelRepository @Inject constructor(private val channelDao: ChannelDao) {
+class ChannelsRepository @Inject constructor(private val channelDao: ChannelDao) {
 
     val savedChannels: LiveData<List<Channel>> = channelDao.getSavedChannels()
 

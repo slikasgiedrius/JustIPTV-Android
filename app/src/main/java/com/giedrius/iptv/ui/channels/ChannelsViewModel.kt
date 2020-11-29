@@ -5,7 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.Channel
-import com.giedrius.iptv.data.repository.ChannelRepository
+import com.giedrius.iptv.data.repository.ChannelsRepository
 import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
@@ -19,7 +19,7 @@ import java.io.FileInputStream
 class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
     private val preferences: Preferences,
-    val channelRepository: ChannelRepository
+    val channelsRepository: ChannelsRepository
 ) : ViewModel() {
     var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
 
@@ -27,13 +27,13 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     fun saveChannelToDatabase(channel: Channel) {
         viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.addChannel(channel)
+            channelsRepository.addChannel(channel)
         }
     }
 
     fun deleteAllChannels() {
         viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.deleteAllChannels()
+            channelsRepository.deleteAllChannels()
         }
     }
 
@@ -61,7 +61,7 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     private fun saveChannels(channels: List<Channel>) {
         viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.uploadChannels(channels)
+            channelsRepository.uploadChannels(channels)
         }
     }
 
