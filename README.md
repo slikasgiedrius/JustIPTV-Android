@@ -3,5 +3,5 @@
 
 Learning based project to keep up with up to date technologies:
 
-Kotlin /n
+Kotlin
 Hilt
