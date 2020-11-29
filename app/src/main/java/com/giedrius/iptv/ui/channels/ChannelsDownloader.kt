@@ -2,19 +2,16 @@ package com.giedrius.iptv.ui.channels
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
-import com.giedrius.iptv.utils.extensions.filterByPhrase
 import com.lyrebirdstudio.fileboxlib.core.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.File
-import java.io.FileInputStream
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.ceil
 
 class ChannelsDownloader @Inject constructor(
     private val context: Context,
@@ -43,6 +40,10 @@ class ChannelsDownloader @Inject constructor(
                             is FileBoxResponse.Downloading -> {
                                 val progress: Float = fileBoxResponse.progress
                                 val ongoingRecord: Record = fileBoxResponse.record
+
+                                val percent = ceil((progress) * 100).toInt()
+                                Timber.d("CHANNELS DOWNLOADING $percent")
+
                             }
                             is FileBoxResponse.Complete -> {
                                 val savedRecord: Record = fileBoxResponse.record

@@ -13,6 +13,7 @@ import com.giedrius.iptv.utils.extensions.filterByPhrase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 
