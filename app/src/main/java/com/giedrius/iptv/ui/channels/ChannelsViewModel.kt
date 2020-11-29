@@ -2,6 +2,8 @@ package com.giedrius.iptv.ui.channels
 
 import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.Channel
@@ -25,6 +27,7 @@ class ChannelsViewModel @ViewModelInject constructor(
     var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
 
     val onFetchedChannels = SingleLiveEvent<ArrayList<Channel>>()
+    val onProgressChanged = MutableLiveData<Int>()
 
     fun saveChannelToDatabase(channel: Channel) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -66,4 +69,5 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
+    fun downloadProgressChanged(progress: Int) = onProgressChanged.postValue(progress)
 }

@@ -48,6 +48,9 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
             adapter.update(it)
         }
+        viewModel.onProgressChanged.observe(viewLifecycleOwner) {
+            progressBar.progress = it
+        }
     }
 
     private fun setupListeners() {

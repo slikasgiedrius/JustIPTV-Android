@@ -43,7 +43,7 @@ class ChannelsDownloader @Inject constructor(
 
                                 val percent = ceil((progress) * 100).toInt()
                                 Timber.d("CHANNELS DOWNLOADING $percent")
-
+                                viewModel.downloadProgressChanged(percent)
                             }
                             is FileBoxResponse.Complete -> {
                                 val savedRecord: Record = fileBoxResponse.record
