@@ -2,10 +2,10 @@ package com.giedrius.iptv.data.repository
 
 import androidx.lifecycle.LiveData
 import com.giedrius.iptv.data.model.Channel
-import com.giedrius.iptv.room.ChannelDao
+import com.giedrius.iptv.database.channels.ChannelsDao
 import javax.inject.Inject
 
-class ChannelsRepository @Inject constructor(private val channelDao: ChannelDao) {
+class ChannelsRepository @Inject constructor(private val channelDao: ChannelsDao) {
 
     val savedChannels: LiveData<List<Channel>> = channelDao.getSavedChannels()
 

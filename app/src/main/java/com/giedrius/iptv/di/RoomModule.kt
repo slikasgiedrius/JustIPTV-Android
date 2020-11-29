@@ -1,7 +1,7 @@
 package com.giedrius.iptv.di
 
 import android.content.Context
-import com.giedrius.iptv.room.ChannelDatabase
+import com.giedrius.iptv.database.channels.ChannelsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +15,5 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun provideChannelDao(@ApplicationContext appContext: Context) = ChannelDatabase.getDatabase(appContext).channelDao()
+    fun provideChannelDao(@ApplicationContext appContext: Context) = ChannelsDatabase.getDatabase(appContext).channelDao()
 }

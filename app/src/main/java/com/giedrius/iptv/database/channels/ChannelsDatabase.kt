@@ -1,4 +1,4 @@
-package com.giedrius.iptv.room
+package com.giedrius.iptv.database.channels
 
 import android.content.Context
 import androidx.room.Database
@@ -7,15 +7,15 @@ import androidx.room.RoomDatabase
 import com.giedrius.iptv.data.model.Channel
 
 @Database(entities = [Channel::class], version = 1, exportSchema = false)
-abstract class ChannelDatabase : RoomDatabase() {
+abstract class ChannelsDatabase : RoomDatabase() {
 
-    abstract fun channelDao(): ChannelDao
+    abstract fun channelDao(): ChannelsDao
 
     companion object {
         @Volatile
-        private var INSTANCE: ChannelDatabase? = null
+        private var INSTANCE: ChannelsDatabase? = null
 
-        fun getDatabase(context: Context): ChannelDatabase {
+        fun getDatabase(context: Context): ChannelsDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -23,8 +23,8 @@ abstract class ChannelDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ChannelDatabase::class.java,
-                    "channel_table"
+                    ChannelsDatabase::class.java,
+                    "channels_table"
                 ).build()
                 INSTANCE = instance
                 return instance

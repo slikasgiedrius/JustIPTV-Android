@@ -1,11 +1,11 @@
-package com.giedrius.iptv.room
+package com.giedrius.iptv.database.channels
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.giedrius.iptv.data.model.Channel
 
 @Dao
-interface ChannelDao {
+interface ChannelsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addChannel(channel: Channel)
@@ -16,10 +16,10 @@ interface ChannelDao {
     @Delete
     suspend fun deleteChannel(channel: Channel)
 
-    @Query("DELETE FROM channel_table")
+    @Query("DELETE FROM channels_table")
     suspend fun deleteAllChannels()
 
-    @Query("SELECT * FROM channel_table ORDER BY id ASC")
+    @Query("SELECT * FROM channels_table ORDER BY id ASC")
     fun getSavedChannels(): LiveData<List<Channel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
