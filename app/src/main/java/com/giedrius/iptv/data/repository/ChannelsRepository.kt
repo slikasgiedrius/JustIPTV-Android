@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class ChannelsRepository @Inject constructor(private val channelDao: ChannelsDao) {
 
-    val savedChannels: LiveData<List<Channel>> = Transformations.map(channelDao.getSavedChannels()) { list -> list.map { it.toChannel() } }
+    val savedChannels: LiveData<List<Channel>> = Transformations.map(channelDao.getSavedChannels()) { it.map { entity -> entity.toChannel() } }
 
     suspend fun addChannel(channel: Channel) = channelDao.addChannel(channel.toChannelEntity())
 
