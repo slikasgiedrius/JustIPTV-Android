@@ -17,7 +17,7 @@ fun Playlist.filterByPhrase(phrase: String?): ArrayList<Channel> {
     val noBlanks = this.skipBlanks()
     val noBlanksByPhrase = arrayListOf<Channel>()
     noBlanks.forEach {
-        if (it.itemName!!.contains(phrase!!)) {
+        if (it.itemName!!.contains(phrase!!, ignoreCase = true)) {
             noBlanksByPhrase.add(it)
         }
     }

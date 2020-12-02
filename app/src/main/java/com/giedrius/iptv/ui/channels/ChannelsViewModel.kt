@@ -26,40 +26,28 @@ class ChannelsViewModel @ViewModelInject constructor(
 ) : ViewModel() {
     var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
 
-    val onFetchedChannels = SingleLiveEvent<ArrayList<Channel>>()
+    val onFetchedChannels = SingleLiveEvent<List<Channel>>()
     val onProgressChanged = MutableLiveData<Int>()
-
-    fun saveChannelToDatabase(channel: Channel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            channelsRepository.addChannel(channel)
-        }
-    }
-
-    fun deleteAllChannels() {
-        viewModelScope.launch(Dispatchers.IO) {
-            channelsRepository.deleteAllChannels()
-        }
-    }
-
-    fun loadChannels(name: String) {
-        val parser = PlaylistParser()
-        val inputStream = FileInputStream(File(name))
-        val playlist = parser.parseFile(inputStream)
-        playlist.playlistItems?.let { saveChannels(it) }
-    }
-
-    fun loadChannelsNoUpdate(phrase: String?) {
-        val parser = PlaylistParser()
-        val pathFromPrefs = preferences.getFilePath()
-        val inputStream = FileInputStream(File(pathFromPrefs))
-        val playlist = parser.parseFile(inputStream)
-        val filteredPlaylist = playlist.filterByPhrase(phrase)
-        onFetchedChannels.postValue(filteredPlaylist)
-    }
 
     fun detectIfDownloadNeeded(itemsCount: Int) {
         if (itemsCount == 0) {
             channelsDownloader.downloadPlayerFile()
+        }
+    }
+
+    fun loadChannels(name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val parser = PlaylistParser()
+            val inputStream = FileInputStream(File(name))
+            val playlist = parser.parseFile(inputStream)
+            playlist.playlistItems?.let { saveChannels(it) }
+        }
+    }
+
+    fun loadChannelsNoUpdate(channels: List<Channel>, phrase: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val filteredPlaylist = channels.filter { it.itemName?.contains(phrase, true) == true }
+            onFetchedChannels.postValue(filteredPlaylist)
         }
     }
 
@@ -70,4 +58,10 @@ class ChannelsViewModel @ViewModelInject constructor(
     }
 
     fun downloadProgressChanged(progress: Int) = onProgressChanged.postValue(progress)
+
+    fun deleteAllChannels() {
+        viewModelScope.launch(Dispatchers.IO) {
+            channelsRepository.deleteAllChannels()
+        }
+    }
 }

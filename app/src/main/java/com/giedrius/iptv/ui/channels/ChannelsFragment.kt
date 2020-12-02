@@ -1,6 +1,8 @@
 package com.giedrius.iptv.ui.channels
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -54,9 +56,13 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
     }
 
     private fun setupListeners() {
-        btnSearch.setOnClickListener {
-            viewModel.loadChannelsNoUpdate(etSearch.text.toString())
-        }
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                viewModel.loadChannelsNoUpdate(items, etSearch.text.toString())
+            }
+        })
     }
 
     private fun setupRecyclerView() {
