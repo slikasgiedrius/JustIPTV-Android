@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
@@ -34,12 +35,25 @@ class ChannelsAdapter(
             recyclerViewClickListener.onPlaylistClickListener(channels[position])
         }
         holder.channelName.text = channels[position].itemName
-        holder.channelLogo.load(channels[position].itemLogo)
+
+        bindImage(holder, channels[position])
     }
 
     fun update(newItems: List<Channel>) {
         this.channels = newItems
         this.notifyDataSetChanged()
+    }
+
+    private fun bindImage(holder: ViewHolder, channel: Channel) {
+        holder.channelLogo.load(channel.itemLogo) {
+            if (channel.itemLogo.isNullOrEmpty()) {
+                holder.channelLogo.load(R.drawable.ic_image_placeholder)
+            } else {
+                holder.channelLogo.load(channel.itemLogo)
+            }
+            placeholder(R.drawable.ic_image_placeholder)
+            error(R.drawable.ic_no_image_placeholder)
+        }
     }
 }
 
