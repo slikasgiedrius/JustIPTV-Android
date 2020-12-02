@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
+import com.giedrius.iptv.utils.extensions.hideKeyboard
 import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
@@ -63,6 +65,13 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClick
                 viewModel.loadChannelsNoUpdate(items, etSearch.text.toString())
             }
         })
+
+        etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard()
+            }
+            false
+        }
     }
 
     private fun setupRecyclerView() {
