@@ -8,4 +8,5 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
     private val viewModel: MainActivityViewModel by viewModels()
+
 }
