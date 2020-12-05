@@ -3,7 +3,6 @@ package com.giedrius.iptv.database.channels
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.giedrius.iptv.data.entity.ChannelEntity
-import com.giedrius.iptv.data.model.Channel
 
 @Dao
 interface ChannelsDao {

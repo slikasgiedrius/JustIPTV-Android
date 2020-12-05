@@ -1,10 +1,12 @@
 package com.giedrius.iptv.ui.channels
 
 import android.content.Context
+import android.content.Intent
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.giedrius.iptv.MainActivity
 import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.data.model.Favourite
 import com.giedrius.iptv.data.repository.ChannelsRepository
@@ -29,6 +31,7 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     val onFetchedChannels = SingleLiveEvent<List<Channel>>()
     val onProgressChanged = MutableLiveData<Int>()
+    val onDataMissing = SingleLiveEvent<Boolean>()
 
     fun detectIfDownloadNeeded(itemsCount: Int) {
         if (itemsCount == 0) {
@@ -65,4 +68,6 @@ class ChannelsViewModel @ViewModelInject constructor(
             favouritesRepository.addFavourite(Favourite(channel.id, channel))
         }
     }
+
+    fun startInputActivity() = onDataMissing.postValue(true)
 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.giedrius.iptv.data.model.Favourite
 import com.giedrius.iptv.database.favourites.FavouritesDao
-import com.giedrius.iptv.utils.toChannel
 import com.giedrius.iptv.utils.toFavourite
 import com.giedrius.iptv.utils.toFavouriteEntity
 import javax.inject.Inject

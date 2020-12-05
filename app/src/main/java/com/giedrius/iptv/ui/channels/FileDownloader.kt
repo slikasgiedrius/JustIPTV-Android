@@ -21,6 +21,9 @@ class FileDownloader @Inject constructor(
 
     fun downloadPlayerFile() {
         val initialUrl = preferences.getInitialUrl()
+        if (initialUrl == null) {
+            viewModel.startInputActivity()
+        }
         val fileBoxRequest = initialUrl?.let { FileBoxRequest(it) }
 
         val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()

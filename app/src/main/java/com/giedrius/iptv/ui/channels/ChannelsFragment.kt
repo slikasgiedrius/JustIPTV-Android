@@ -1,6 +1,7 @@
 package com.giedrius.iptv.ui.channels
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.giedrius.iptv.MainActivity
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.utils.extensions.hideKeyboard
@@ -60,6 +62,9 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         viewModel.onProgressChanged.observe(viewLifecycleOwner) {
             progressBar.progress = it
         }
+        viewModel.onDataMissing.observe(viewLifecycleOwner) {
+            startInputActivity(it)
+        }
     }
 
     private fun setupListeners() {
@@ -84,5 +89,12 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         recyclerView.layoutManager = linearLayoutManager
         adapter = ChannelsAdapter(items, requireContext(), this)
         recyclerView.adapter = adapter
+    }
+
+    private fun startInputActivity(isDataMissing: Boolean) {
+        if (isDataMissing) {
+            val action = ChannelsFragmentDirections.actionChannelsFragmentToInputActivity()
+            view?.findNavController()?.navigate(action)
+        }
     }
 }

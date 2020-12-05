@@ -3,17 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/inputFragment">
-
-    <fragment
-        android:id="@+id/inputFragment"
-        android:name="com.giedrius.iptv.ui.input.InputFragment"
-        android:label="@string/title_input"
-        tools:layout="@layout/input_fragment">
-        <action
-            android:id="@+id/action_inputFragment_to_channelsFragment"
-            app:destination="@id/channelsFragment" />
-    </fragment>
+    app:startDestination="@id/channelsFragment">
 
     <fragment
         android:id="@+id/channelsFragment"
@@ -23,6 +13,9 @@
         <action
             android:id="@+id/action_channelsFragment_to_playerActivity"
             app:destination="@id/playerActivity" />
+        <action
+            android:id="@+id/action_channelsFragment_to_inputActivity"
+            app:destination="@id/inputActivity" />
     </fragment>
 
     <fragment
@@ -50,5 +43,10 @@
             android:name="url"
             app:argType="string" />
     </activity>
+    <activity
+        android:id="@+id/inputActivity"
+        android:name="com.giedrius.iptv.ui.input.InputActivity"
+        android:label="activity_input"
+        tools:layout="@layout/activity_input" />
 
 </navigation>
