@@ -1,12 +1,13 @@
 package com.giedrius.iptv.ui.channels
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
@@ -21,7 +22,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
 
     private lateinit var adapter: ChannelsAdapter
 
-    private val viewModel: ChannelsViewModel by viewModels()
+    private lateinit var viewModel: ChannelsViewModel
     private var items: List<Channel> = arrayListOf()
 
     override fun onViewCreated(
@@ -29,6 +30,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity()).get(ChannelsViewModel::class.java)
 
         setupListeners()
         setupRecyclerView()

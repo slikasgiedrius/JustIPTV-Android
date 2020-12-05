@@ -1,28 +1,36 @@
 package com.giedrius.iptv.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
-import com.jcloquell.androidsecurestorage.SecureStorage
+import android.content.SharedPreferences
 
 class Preferences(context: Context) {
-    private val secureStorage = SecureStorage(context)
+    private val sharedPref: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    private fun save(key: String, value: Any) = secureStorage.storeObject(key, value)
-
-    private fun getString(key: String): String? {
-        return secureStorage.getObject(key, String::class.java)
+    @SuppressLint("CommitPrefEdits")
+    private fun saveStringValue(KEY_NAME: String, text: String) {
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putString(KEY_NAME, text)
+        editor.apply()
     }
+
+    private fun getValueString(KEY_NAME: String): String? {
+        return sharedPref.getString(KEY_NAME, null)
+    }
+
 
     //Public methods to be used in the project
 
-    fun setInitialUrl(url: String) = this.save(INITIAL_URL, url)
+    fun setInitialUrl(url: String) = this.saveStringValue(INITIAL_URL, url)
 
-    fun getInitialUrl(): String? = this.getString(INITIAL_URL)
+    fun getInitialUrl(): String? = this.getValueString(INITIAL_URL)
 
-    fun setFilePath(path: String) = this.save(FILE_PATH, path)
+    fun setFilePath(path: String) = this.saveStringValue(FILE_PATH, path)
 
-    fun getFilePath(): String? = this.getString(FILE_PATH)
+    fun getFilePath(): String? = this.getValueString(FILE_PATH)
 
     companion object {
+        private const val PREFS_NAME = "justiptv"
         private const val INITIAL_URL = "initial_url"
         private const val FILE_PATH = "file_path"
     }
