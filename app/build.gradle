@@ -89,20 +89,14 @@ dependencies {
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    //Parser
-    implementation 'com.iheartradio.m3u8:open-m3u8:0.2.4'
-
     //Coil
     implementation 'io.coil-kt:coil:1.0.0'
-
-    //Gson
-    implementation 'com.google.code.gson:gson:2.8.6'
-
+    
     //Room
     implementation "androidx.room:room-runtime:2.2.5"
     implementation "androidx.room:room-ktx:2.2.5"
-    implementation 'androidx.navigation:navigation-fragment:2.3.1'
-    implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'androidx.navigation:navigation-fragment:2.3.2'
+    implementation 'androidx.navigation:navigation-ui:2.3.2'
 
     //Tests
     testImplementation 'junit:junit:4.13.1'
