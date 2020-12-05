@@ -11,6 +11,9 @@ Coroutines
 LiveData  
 Navigation component  
 Coil  
+Exo Player  
+Firebase
+AndroidX
 
 
 
