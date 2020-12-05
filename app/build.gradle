@@ -21,6 +21,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "MY_URL", "\"http://uran.iptvboss.net:80/get.php?username=GiedriusSlikas&password=GiedriusSlikas&type=m3u_plus&output=ts\""
     }
 
     buildTypes {
@@ -90,9 +92,6 @@ dependencies {
     //Parser
     implementation 'com.iheartradio.m3u8:open-m3u8:0.2.4'
 
-    //Preferences
-    implementation 'com.jcloquell:androidsecurestorage:0.1.3'
-
     //Coil
     implementation 'io.coil-kt:coil:1.0.0'
 
@@ -102,6 +101,8 @@ dependencies {
     //Room
     implementation "androidx.room:room-runtime:2.2.5"
     implementation "androidx.room:room-ktx:2.2.5"
+    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+    implementation 'androidx.navigation:navigation-ui:2.3.1'
 
     //Tests
     testImplementation 'junit:junit:4.13.1'

@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
-import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
+import com.giedrius.iptv.utils.listeners.ChannelClickListener
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 class ChannelsAdapter(
     private var channels: List<Channel>,
     private val context: Context,
-    private val recyclerViewClickListener: RecyclerViewClickListener
+    private val channelClickListener: ChannelClickListener
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -31,15 +31,31 @@ class ChannelsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            recyclerViewClickListener.onPlaylistClickListener(channels[position])
+            channelClickListener.onChannelClickListener(channels[position])
+        }
+        holder.channelLogo.setOnClickListener {
+            channelClickListener.onFavouriteClickListener(channels[position])
         }
         holder.channelName.text = channels[position].itemName
-        holder.channelLogo.load(channels[position].itemLogo)
+
+        bindImage(holder, channels[position])
     }
 
     fun update(newItems: List<Channel>) {
         this.channels = newItems
         this.notifyDataSetChanged()
+    }
+
+    private fun bindImage(holder: ViewHolder, channel: Channel) {
+        holder.channelLogo.load(channel.itemLogo) {
+            if (channel.itemLogo.isNullOrEmpty()) {
+                holder.channelLogo.load(R.drawable.ic_image_placeholder)
+            } else {
+                holder.channelLogo.load(channel.itemLogo)
+            }
+            placeholder(R.drawable.ic_image_placeholder)
+            error(R.drawable.ic_no_image_placeholder)
+        }
     }
 }
 

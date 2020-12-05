@@ -9,7 +9,7 @@ import java.util.*
 class PlaylistParser {
 
     private val playlistItems = ArrayList<Channel>()
-    private var autoIncrement = 0
+    private var autoIncrementId = 0
 
     fun parseFile(fileData: InputStream): Playlist {
         val data = convertStreamToString(fileData)
@@ -25,8 +25,8 @@ class PlaylistParser {
                 val group = getGroup(dataArray[0])
                 val url = getUrl(dataArray[1])
 
-                playlistItems.add(Channel(autoIncrement, id, name, logo, group, url, ""))
-                autoIncrement++
+                playlistItems.add(Channel(autoIncrementId, id, name, logo, group, url, ""))
+                autoIncrementId++
             }
         }
 

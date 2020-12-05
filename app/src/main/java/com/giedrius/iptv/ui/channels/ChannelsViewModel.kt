@@ -1,15 +1,19 @@
 package com.giedrius.iptv.ui.channels
 
 import android.content.Context
+import android.content.Intent
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.giedrius.iptv.MainActivity
 import com.giedrius.iptv.data.model.Channel
-import com.giedrius.iptv.data.repository.ChannelRepository
+import com.giedrius.iptv.data.model.Favourite
+import com.giedrius.iptv.data.repository.ChannelsRepository
+import com.giedrius.iptv.data.repository.FavouritesRepository
 import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
-import com.giedrius.iptv.utils.extensions.filterByPhrase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,51 +22,52 @@ import java.io.FileInputStream
 
 class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
-    private val preferences: Preferences,
-    val channelRepository: ChannelRepository
+    preferences: Preferences,
+    val channelsRepository: ChannelsRepository,
+    val favouritesRepository: FavouritesRepository
 ) : ViewModel() {
-    var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
+    var fileDownloader: FileDownloader =
+        FileDownloader(application, preferences, this)
 
-    val onFetchedChannels = SingleLiveEvent<ArrayList<Channel>>()
+    val onFetchedChannels = SingleLiveEvent<List<Channel>>()
+    val onProgressChanged = MutableLiveData<Int>()
+    val onDataMissing = SingleLiveEvent<Boolean>()
 
-    fun saveChannelToDatabase(channel: Channel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.addChannel(channel)
-        }
-    }
-
-    fun deleteAllChannels() {
-        viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.deleteAllChannels()
+    fun detectIfDownloadNeeded(itemsCount: Int) {
+        if (itemsCount == 0) {
+            fileDownloader.downloadPlayerFile()
         }
     }
 
     fun loadChannels(name: String) {
-        val parser = PlaylistParser()
-        val inputStream = FileInputStream(File(name))
-        val playlist = parser.parseFile(inputStream)
-        playlist.playlistItems?.let { saveChannels(it) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val parser = PlaylistParser()
+            val inputStream = FileInputStream(File(name))
+            val playlist = parser.parseFile(inputStream)
+            playlist.playlistItems?.let { saveChannels(it) }
+        }
     }
 
-    fun loadChannelsNoUpdate(phrase: String?) {
-        val parser = PlaylistParser()
-        val pathFromPrefs = preferences.getFilePath()
-        val inputStream = FileInputStream(File(pathFromPrefs))
-        val playlist = parser.parseFile(inputStream)
-        val filteredPlaylist = playlist.filterByPhrase(phrase)
-        onFetchedChannels.postValue(filteredPlaylist)
-    }
-
-    fun detectIfDownloadNeeded(itemsCount: Int) {
-        if (itemsCount == 0) {
-            channelsDownloader.downloadPlayerFile()
+    fun loadChannelsNoUpdate(channels: List<Channel>, phrase: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val filteredPlaylist = channels.filter { it.itemName?.contains(phrase, true) == true }
+            onFetchedChannels.postValue(filteredPlaylist)
         }
     }
 
     private fun saveChannels(channels: List<Channel>) {
         viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.uploadChannels(channels)
+            channelsRepository.uploadChannels(channels)
         }
     }
 
+    fun downloadProgressChanged(progress: Int) = onProgressChanged.postValue(progress)
+
+    fun addFavourite(channel: Channel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            favouritesRepository.addFavourite(Favourite(channel.id, channel))
+        }
+    }
+
+    fun startInputActivity() = onDataMissing.postValue(true)
 }

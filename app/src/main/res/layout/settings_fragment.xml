@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.settings.SettingsFragment">
+
+    <TextView
+        android:id="@+id/tvClearSharedPreferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Clear shared preferences"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iwClearSharedPreferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/tvClearSharedPreferences"
+        app:layout_constraintStart_toEndOf="@+id/tvClearSharedPreferences"
+        app:layout_constraintTop_toTopOf="@+id/tvClearSharedPreferences"
+        app:layout_constraintVertical_bias="1.0"
+        app:tint="@color/black"
+        tools:tint="@color/black" />
+
+    <TextView
+        android:id="@+id/tvDeleteAllChannels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Delete all channels"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvClearSharedPreferences" />
+
+    <ImageView
+        android:id="@+id/iwDeleteAllChannels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDeleteAllChannels"
+        app:layout_constraintStart_toEndOf="@+id/tvDeleteAllChannels"
+        app:layout_constraintTop_toTopOf="@+id/tvDeleteAllChannels"
+        app:layout_constraintVertical_bias="0.0"
+        app:tint="@color/black"
+        tools:tint="@color/black" />
+
+    <TextView
+        android:id="@+id/tvDeleteAllFavouriteChannels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:text="Delete all favourites"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvClearSharedPreferences" />
+
+    <ImageView
+        android:id="@+id/iwDeleteAllFavouriteChannels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDeleteAllFavouriteChannels"
+        app:layout_constraintStart_toEndOf="@+id/tvDeleteAllFavouriteChannels"
+        app:layout_constraintTop_toTopOf="@+id/tvDeleteAllFavouriteChannels"
+        app:layout_constraintVertical_bias="1.0"
+        app:tint="@color/black"
+        tools:tint="@color/black" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

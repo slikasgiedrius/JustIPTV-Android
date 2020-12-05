@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/channelsFragment">
+
+    <fragment
+        android:id="@+id/channelsFragment"
+        android:name="com.giedrius.iptv.ui.channels.ChannelsFragment"
+        android:label="@string/title_channels"
+        tools:layout="@layout/channels_fragment">
+        <action
+            android:id="@+id/action_channelsFragment_to_playerActivity"
+            app:destination="@id/playerActivity" />
+        <action
+            android:id="@+id/action_channelsFragment_to_inputActivity"
+            app:destination="@id/inputActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.giedrius.iptv.ui.favourites.FavouritesFragment"
+        android:label="@string/title_favourites"
+        tools:layout="@layout/favourites_fragment" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_playerActivity"
+            app:destination="@id/playerActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.giedrius.iptv.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/settings_fragment" />
+
+    <activity
+        android:id="@+id/playerActivity"
+        android:name="com.giedrius.iptv.ui.player.PlayerActivity"
+        android:label="@string/title_player"
+        tools:layout="@layout/player_activity">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </activity>
+    <activity
+        android:id="@+id/inputActivity"
+        android:name="com.giedrius.iptv.ui.input.InputActivity"
+        android:label="activity_input"
+        tools:layout="@layout/activity_input" />
+
+</navigation>
