@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Just IPTV</string>
     <string name="enter_url">Enter valid Iptv URL</string>
+    <string name="title_activity_home">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_nav">MainActivity</string>
 </resources>

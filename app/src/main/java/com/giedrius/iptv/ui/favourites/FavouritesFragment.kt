@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Favourite
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavouritesFragment : Fragment(R.layout.favourites_fragment) {
 
     private val viewModel: FavouritesViewModel by viewModels()
@@ -19,7 +21,7 @@ class FavouritesFragment : Fragment(R.layout.favourites_fragment) {
     }
 
     private fun handleObservers() {
-        viewModel.favouritesRepository.savedFavourites.observeForever {
+        viewModel.favouritesRepository.savedFavourites.observe(viewLifecycleOwner) {
             items = it
         }
     }

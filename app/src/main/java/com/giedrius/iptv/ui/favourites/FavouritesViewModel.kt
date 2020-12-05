@@ -6,6 +6,4 @@ import com.giedrius.iptv.data.repository.FavouritesRepository
 
 class FavouritesViewModel @ViewModelInject constructor(
     val favouritesRepository: FavouritesRepository
-) : ViewModel() {
-
-}
+) : ViewModel()

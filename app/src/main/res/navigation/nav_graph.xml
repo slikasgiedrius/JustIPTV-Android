@@ -29,4 +29,15 @@
             android:name="url"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.giedrius.iptv.ui.favourites.FavouritesFragment"
+        android:label="favourites_fragment"
+        tools:layout="@layout/favourites_fragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.giedrius.iptv.ui.settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" />
+
 </navigation>
