@@ -1,4 +1,4 @@
-package com.giedrius.iptv.utils.listeners
+package com.giedrius.iptv.utils
 
 import com.giedrius.iptv.data.model.Channel
 

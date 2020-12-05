@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true" >
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.Main" >
+            android:theme="@style/Theme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
         <activity
             android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/Theme.NoActionBar" />
+            android:theme="@style/Theme.FullScreen" />
     </application>
 
 </manifest>

@@ -8,10 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
-import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
+import com.giedrius.iptv.utils.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 class ChannelsAdapter(

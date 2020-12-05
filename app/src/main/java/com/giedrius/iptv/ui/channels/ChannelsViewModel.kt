@@ -21,7 +21,7 @@ import java.io.FileInputStream
 
 class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
-    private val preferences: Preferences,
+    preferences: Preferences,
     val channelsRepository: ChannelsRepository
 ) : ViewModel() {
     var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)

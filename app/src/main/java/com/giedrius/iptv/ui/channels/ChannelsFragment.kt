@@ -12,10 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.utils.extensions.hideKeyboard
-import com.giedrius.iptv.utils.listeners.RecyclerViewClickListener
+import com.giedrius.iptv.utils.RecyclerViewClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.channels_fragment.*
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ChannelsFragment : Fragment(R.layout.channels_fragment), RecyclerViewClickListener {
