@@ -1,22 +1,22 @@
-package com.giedrius.iptv.database.channels
+package com.giedrius.iptv.database.favourites
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.giedrius.iptv.data.entity.ChannelEntity
-import com.giedrius.iptv.data.model.Channel
+import androidx.room.TypeConverters
+import com.giedrius.iptv.data.entity.FavouriteEntity
 
-@Database(entities = [ChannelEntity::class], version = 1, exportSchema = false)
-abstract class ChannelsDatabase : RoomDatabase() {
+@Database(entities = [FavouriteEntity::class], version = 1, exportSchema = false)
+abstract class  FavouritesDatabase : RoomDatabase() {
 
-    abstract fun channelsDao(): ChannelsDao
+    abstract fun favouritesDao(): FavouritesDao
 
     companion object {
         @Volatile
-        private var INSTANCE: ChannelsDatabase? = null
+        private var INSTANCE: FavouritesDatabase? = null
 
-        fun getDatabase(context: Context): ChannelsDatabase {
+        fun getDatabase(context: Context): FavouritesDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -24,8 +24,8 @@ abstract class ChannelsDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ChannelsDatabase::class.java,
-                    "channels_table"
+                    FavouritesDatabase::class.java,
+                    "favourites_database"
                 ).build()
                 INSTANCE = instance
                 return instance
