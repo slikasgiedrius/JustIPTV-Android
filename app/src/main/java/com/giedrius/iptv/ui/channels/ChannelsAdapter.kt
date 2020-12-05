@@ -31,7 +31,10 @@ class ChannelsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            channelClickListener.onPlaylistClickListener(channels[position])
+            channelClickListener.onChannelClickListener(channels[position])
+        }
+        holder.channelLogo.setOnClickListener {
+            channelClickListener.onFavouriteClickListener(channels[position])
         }
         holder.channelName.text = channels[position].itemName
 

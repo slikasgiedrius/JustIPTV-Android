@@ -4,5 +4,6 @@ import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.data.model.Favourite
 
 interface ChannelClickListener {
-    fun onPlaylistClickListener(item: Channel)
+    fun onChannelClickListener(item: Channel)
+    fun onFavouriteClickListener(item: Channel)
 }

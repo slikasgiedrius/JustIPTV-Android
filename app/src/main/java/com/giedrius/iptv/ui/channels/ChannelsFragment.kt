@@ -35,11 +35,15 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         handleObservers()
     }
 
-    override fun onPlaylistClickListener(item: Channel) {
+    override fun onChannelClickListener(item: Channel) {
         val action = ChannelsFragmentDirections.actionChannelsFragmentToPlayerActivity(
             item.itemUrl.toString()
         )
         view?.findNavController()?.navigate(action)
+    }
+
+    override fun onFavouriteClickListener(item: Channel) {
+        viewModel.addFavourite(item)
     }
 
     private fun handleObservers() {

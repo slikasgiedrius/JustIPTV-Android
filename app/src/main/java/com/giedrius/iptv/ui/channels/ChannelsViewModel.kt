@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giedrius.iptv.data.model.Channel
+import com.giedrius.iptv.data.model.Favourite
 import com.giedrius.iptv.data.repository.ChannelsRepository
+import com.giedrius.iptv.data.repository.FavouritesRepository
 import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
@@ -22,7 +24,8 @@ import java.io.FileInputStream
 class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
     preferences: Preferences,
-    val channelsRepository: ChannelsRepository
+    val channelsRepository: ChannelsRepository,
+    val favouritesRepository: FavouritesRepository
 ) : ViewModel() {
     var channelsDownloader: ChannelsDownloader = ChannelsDownloader(application, preferences, this)
 
@@ -59,9 +62,9 @@ class ChannelsViewModel @ViewModelInject constructor(
 
     fun downloadProgressChanged(progress: Int) = onProgressChanged.postValue(progress)
 
-    fun deleteAllChannels() {
+    fun addFavourite(channel: Channel) {
         viewModelScope.launch(Dispatchers.IO) {
-            channelsRepository.deleteAllChannels()
+            favouritesRepository.addFavourite(Favourite(channel.id, channel))
         }
     }
 }
