@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
-import com.giedrius.iptv.utils.RecyclerViewClickListener
+import com.giedrius.iptv.utils.listeners.ChannelClickListener
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 class ChannelsAdapter(
     private var channels: List<Channel>,
     private val context: Context,
-    private val recyclerViewClickListener: RecyclerViewClickListener
+    private val channelClickListener: ChannelClickListener
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -31,7 +31,7 @@ class ChannelsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            recyclerViewClickListener.onPlaylistClickListener(channels[position])
+            channelClickListener.onPlaylistClickListener(channels[position])
         }
         holder.channelName.text = channels[position].itemName
 
