@@ -1,34 +1,27 @@
 package com.giedrius.iptv.ui.settings
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.giedrius.iptv.R
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.settings_fragment.*
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
-    companion object {
-        fun newInstance() = SettingsFragment()
+    private val viewModel: SettingsViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupListeners()
     }
 
-    private lateinit var viewModel: SettingsViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.settings_fragment, container, false)
+    private fun setupListeners() {
+        iwClearSharedPreferences.setOnClickListener { viewModel.clearSharedPreferences() }
+        iwDeleteAllChannels.setOnClickListener { viewModel.deleteAllChannels() }
+        iwDeleteAllFavouriteChannels.setOnClickListener { viewModel.deleteAllFavouriteChannels() }
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
