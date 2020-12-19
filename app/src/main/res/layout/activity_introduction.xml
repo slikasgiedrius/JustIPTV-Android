@@ -6,4 +6,93 @@
     android:layout_height="match_parent"
     tools:context=".ui.introduction.IntroductionActivity">
 
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="No adds, no fees. Just IPTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDownloadContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Download content from URL"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <TextView
+        android:id="@+id/tvExtractItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Extract items from content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDownloadContent" />
+
+    <TextView
+        android:id="@+id/tvSaveItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Save items to local storage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvExtractItems" />
+
+    <TextView
+        android:id="@+id/tvDisplayItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Display items"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSaveItems" />
+
+    <Switch
+        android:id="@+id/sDownloadContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDownloadContent"
+        app:layout_constraintStart_toEndOf="@+id/tvDownloadContent"
+        app:layout_constraintTop_toTopOf="@+id/tvDownloadContent" />
+
+    <Switch
+        android:id="@+id/sExtractItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvExtractItems"
+        app:layout_constraintStart_toEndOf="@+id/tvExtractItems"
+        app:layout_constraintTop_toTopOf="@+id/tvExtractItems" />
+
+    <Switch
+        android:id="@+id/sSaveItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSaveItems"
+        app:layout_constraintStart_toEndOf="@+id/tvSaveItems"
+        app:layout_constraintTop_toTopOf="@+id/tvSaveItems" />
+
+    <Switch
+        android:id="@+id/sDisplayItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDisplayItems"
+        app:layout_constraintStart_toEndOf="@+id/tvDisplayItems"
+        app:layout_constraintTop_toTopOf="@+id/tvDisplayItems" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
