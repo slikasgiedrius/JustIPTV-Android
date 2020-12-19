@@ -36,6 +36,9 @@
             android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.FullScreen" />
+        <activity
+            android:name=".ui.introduction.IntroductionActivity"
+            android:theme="@style/Theme.NoActionBar"/>
     </application>
 
 </manifest>

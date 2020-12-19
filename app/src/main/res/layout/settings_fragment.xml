@@ -75,4 +75,13 @@
         app:tint="@color/black"
         tools:tint="@color/black" />
 
+    <Button
+        android:id="@+id/bIntroductionScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open introduction screen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
