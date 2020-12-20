@@ -16,7 +16,8 @@ class DownloadRepository @Inject constructor(
     @ApplicationContext private val application: Context
 ) {
     val downloadProgress = MutableLiveData<Int>()
-    val onDataDownloaded = SingleLiveEvent<Boolean>()
+    val filePath = MutableLiveData<String>()
+    val onDataDownloaded = MutableLiveData<Boolean>()
 
     fun downloadFile(initialUrl: String?) {
 
@@ -37,9 +38,9 @@ class DownloadRepository @Inject constructor(
                     when (fileBoxResponse) {
                         is FileBoxResponse.Started -> Timber.d("File download started")
                         is FileBoxResponse.Downloading -> displayProgress(fileBoxResponse.progress)
-                        is FileBoxResponse.Complete -> fileBoxResponse.record.decryptedFilePath?.let {
-//                                it -> loadChannels(it)
+                        is FileBoxResponse.Complete -> fileBoxResponse.record.decryptedFilePath?.let { it ->
                             Timber.d("Download complete")
+                            filePath.postValue(it)
                             onDataDownloaded.postValue(true)
                         }
                         is FileBoxResponse.Error -> Timber.e("Error while downloading file ${fileBoxResponse.throwable}")

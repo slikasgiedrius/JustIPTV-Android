@@ -62,6 +62,9 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         viewModel.onDataMissing.observe(viewLifecycleOwner) {
             startInputActivity(it)
         }
+        viewModel.downloadRepository.filePath.observe(viewLifecycleOwner) {
+            viewModel.loadChannels(it)
+        }
     }
 
     private fun setupListeners() {

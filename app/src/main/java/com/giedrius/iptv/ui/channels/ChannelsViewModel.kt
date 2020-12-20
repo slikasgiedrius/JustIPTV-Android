@@ -1,15 +1,14 @@
 package com.giedrius.iptv.ui.channels
 
 import android.content.Context
-import android.content.Intent
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.giedrius.iptv.MainActivity
 import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.data.model.Favourite
 import com.giedrius.iptv.data.repository.ChannelsRepository
+import com.giedrius.iptv.data.repository.DownloadRepository
 import com.giedrius.iptv.data.repository.FavouritesRepository
 import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
@@ -30,14 +29,16 @@ class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
     val preferences: Preferences,
     val channelsRepository: ChannelsRepository,
-    val favouritesRepository: FavouritesRepository
+    val favouritesRepository: FavouritesRepository,
+    val downloadRepository: DownloadRepository
 ) : ViewModel() {
     val onFetchedChannels = SingleLiveEvent<List<Channel>>()
     val onProgressChanged = MutableLiveData<Int>()
     val onDataMissing = SingleLiveEvent<Boolean>()
 
     fun detectIfDownloadNeeded(itemsCount: Int) {
-        if (itemsCount == 0) downloadFile()
+        val initialUrl = preferences.getInitialUrl()
+        if (itemsCount == 0 && initialUrl != null) downloadRepository.downloadFile(initialUrl)
     }
 
     private fun downloadFile() {
@@ -67,7 +68,7 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun loadChannels(name: String) {
+    fun loadChannels(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val parser = PlaylistParser()
             val inputStream = FileInputStream(File(name))
