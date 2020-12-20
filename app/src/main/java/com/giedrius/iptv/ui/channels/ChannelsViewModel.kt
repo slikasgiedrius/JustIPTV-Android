@@ -14,32 +14,60 @@ import com.giedrius.iptv.data.repository.FavouritesRepository
 import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
+import com.lyrebirdstudio.fileboxlib.core.*
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
+import java.util.concurrent.TimeUnit
+import kotlin.math.ceil
 
 class ChannelsViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
-    preferences: Preferences,
+    val preferences: Preferences,
     val channelsRepository: ChannelsRepository,
     val favouritesRepository: FavouritesRepository
 ) : ViewModel() {
-    var fileDownloader: FileDownloader =
-        FileDownloader(application, preferences, this)
-
     val onFetchedChannels = SingleLiveEvent<List<Channel>>()
     val onProgressChanged = MutableLiveData<Int>()
     val onDataMissing = SingleLiveEvent<Boolean>()
 
     fun detectIfDownloadNeeded(itemsCount: Int) {
-        if (itemsCount == 0) {
-            fileDownloader.downloadPlayerFile()
+        if (itemsCount == 0) downloadFile()
+    }
+
+    private fun downloadFile() {
+        val initialUrl = preferences.getInitialUrl()
+        if (initialUrl == null) onDataMissing.postValue(true)
+        val fileBoxRequest = initialUrl?.let { FileBoxRequest(it) }
+
+        val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
+            .setCryptoType(CryptoType.NONE)
+            .setTTLInMillis(TimeUnit.DAYS.toMillis(7))
+            .setDirectory(DirectoryType.CACHE)
+            .build()
+
+        fileBoxRequest?.let {
+            FileBoxProvider.newInstance(application, fileBoxConfig)
+                .get(it)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ fileBoxResponse ->
+                    when (fileBoxResponse) {
+                        is FileBoxResponse.Started -> Timber.d("File download started")
+                        is FileBoxResponse.Downloading -> displayProgress(fileBoxResponse.progress)
+                        is FileBoxResponse.Complete -> fileBoxResponse.record.decryptedFilePath?.let { it -> loadChannels(it) }
+                        is FileBoxResponse.Error -> Timber.e("Error while downloading file ${fileBoxResponse.throwable}")
+                    }
+                }, Timber::e)
         }
     }
 
-    fun loadChannels(name: String) {
+    private fun loadChannels(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val parser = PlaylistParser()
             val inputStream = FileInputStream(File(name))
@@ -48,7 +76,7 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
-    fun loadChannelsNoUpdate(channels: List<Channel>, phrase: String) {
+    fun performChannelSearch(channels: List<Channel>, phrase: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val filteredPlaylist = channels.filter { it.itemName?.contains(phrase, true) == true }
             onFetchedChannels.postValue(filteredPlaylist)
@@ -61,7 +89,6 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
-    fun downloadProgressChanged(progress: Int) = onProgressChanged.postValue(progress)
 
     fun addFavourite(channel: Channel) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -69,5 +96,8 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
-    fun startInputActivity() = onDataMissing.postValue(true)
+    private fun displayProgress(progress: Float) {
+        val percent = ceil((progress) * 100).toInt()
+        onProgressChanged.postValue(percent)
+    }
 }

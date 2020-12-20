@@ -1,7 +1,5 @@
 package com.giedrius.iptv.ui.channels
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.giedrius.iptv.MainActivity
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.utils.extensions.hideKeyboard
@@ -72,7 +69,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.loadChannelsNoUpdate(items, etSearch.text.toString())
+                viewModel.performChannelSearch(items, etSearch.text.toString())
             }
         })
 

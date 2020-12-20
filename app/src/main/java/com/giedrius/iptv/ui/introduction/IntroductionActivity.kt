@@ -5,8 +5,11 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.giedrius.iptv.R
 import com.giedrius.iptv.ui.channels.ChannelsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_introduction.*
+import timber.log.Timber
 
+@AndroidEntryPoint
 class IntroductionActivity : AppCompatActivity(R.layout.activity_introduction) {
 
     private val viewModel: IntroductionViewModel by viewModels()
@@ -18,5 +21,11 @@ class IntroductionActivity : AppCompatActivity(R.layout.activity_introduction) {
     }
 
     private fun handleObservers() {
+        viewModel.downloadRepository.downloadProgress.observe(this) {
+            Timber.d("PROGRESS $it")
+        }
+        viewModel.downloadRepository.onDataDownloaded.observe(this) {
+            sDownloadContent.isChecked = it
+        }
     }
 }
