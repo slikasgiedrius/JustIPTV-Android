@@ -32,7 +32,7 @@ class ChannelsViewModel @ViewModelInject constructor(
     val downloadRepository: DownloadRepository
 ) : ViewModel() {
     val onFetchedChannels = SingleLiveEvent<List<Channel>>()
-    val onDataMissing = SingleLiveEvent<Boolean>()
+    val onDataMissing = MutableLiveData<Boolean>()
 
     fun detectIfDownloadNeeded(itemsCount: Int) {
         val initialUrl = preferences.getInitialUrl()

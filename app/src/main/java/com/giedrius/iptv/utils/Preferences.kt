@@ -25,8 +25,8 @@ class Preferences(context: Context) {
     fun setInitialUrl(url: String) = this.saveString(INITIAL_URL, url)
     fun getInitialUrl(): String? = this.getString(INITIAL_URL)
 
-//    fun setFilePath(path: String) = this.saveString(FILE_PATH, path)
-//    fun getFilePath(): String? = this.getString(FILE_PATH)
+    fun setFilePath(path: String) = this.saveString(FILE_PATH, path)
+    fun getFilePath(): String? = this.getString(FILE_PATH)
 
     companion object {
         private const val PREFS_NAME = "just_iptv"
