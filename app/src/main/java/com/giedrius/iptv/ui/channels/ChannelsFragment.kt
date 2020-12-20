@@ -56,13 +56,13 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
             adapter.update(it)
         }
-        viewModel.onProgressChanged.observe(viewLifecycleOwner) {
+        viewModel.downloadRepository.onDownloadProgressChanged.observe(viewLifecycleOwner) {
             progressBar.progress = it
         }
         viewModel.onDataMissing.observe(viewLifecycleOwner) {
             startInputActivity(it)
         }
-        viewModel.downloadRepository.filePath.observe(viewLifecycleOwner) {
+        viewModel.downloadRepository.onFilePatchChanged.observe(viewLifecycleOwner) {
             viewModel.loadChannels(it)
         }
     }

@@ -26,46 +26,17 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
 
 class ChannelsViewModel @ViewModelInject constructor(
-    @ApplicationContext private val application: Context,
     val preferences: Preferences,
     val channelsRepository: ChannelsRepository,
     val favouritesRepository: FavouritesRepository,
     val downloadRepository: DownloadRepository
 ) : ViewModel() {
     val onFetchedChannels = SingleLiveEvent<List<Channel>>()
-    val onProgressChanged = MutableLiveData<Int>()
     val onDataMissing = SingleLiveEvent<Boolean>()
 
     fun detectIfDownloadNeeded(itemsCount: Int) {
         val initialUrl = preferences.getInitialUrl()
         if (itemsCount == 0 && initialUrl != null) downloadRepository.downloadFile(initialUrl)
-    }
-
-    private fun downloadFile() {
-        val initialUrl = preferences.getInitialUrl()
-        if (initialUrl == null) onDataMissing.postValue(true)
-        val fileBoxRequest = initialUrl?.let { FileBoxRequest(it) }
-
-        val fileBoxConfig = FileBoxConfig.FileBoxConfigBuilder()
-            .setCryptoType(CryptoType.NONE)
-            .setTTLInMillis(TimeUnit.DAYS.toMillis(7))
-            .setDirectory(DirectoryType.CACHE)
-            .build()
-
-        fileBoxRequest?.let {
-            FileBoxProvider.newInstance(application, fileBoxConfig)
-                .get(it)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ fileBoxResponse ->
-                    when (fileBoxResponse) {
-                        is FileBoxResponse.Started -> Timber.d("File download started")
-                        is FileBoxResponse.Downloading -> displayProgress(fileBoxResponse.progress)
-                        is FileBoxResponse.Complete -> fileBoxResponse.record.decryptedFilePath?.let { it -> loadChannels(it) }
-                        is FileBoxResponse.Error -> Timber.e("Error while downloading file ${fileBoxResponse.throwable}")
-                    }
-                }, Timber::e)
-        }
     }
 
     fun loadChannels(name: String) {
@@ -90,15 +61,9 @@ class ChannelsViewModel @ViewModelInject constructor(
         }
     }
 
-
     fun addFavourite(channel: Channel) {
         viewModelScope.launch(Dispatchers.IO) {
             favouritesRepository.addFavourite(Favourite(channel.id, channel))
         }
-    }
-
-    private fun displayProgress(progress: Float) {
-        val percent = ceil((progress) * 100).toInt()
-        onProgressChanged.postValue(percent)
     }
 }

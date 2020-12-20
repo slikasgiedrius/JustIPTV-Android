@@ -21,9 +21,6 @@ class IntroductionActivity : AppCompatActivity(R.layout.activity_introduction) {
     }
 
     private fun handleObservers() {
-        viewModel.downloadRepository.downloadProgress.observe(this) {
-            Timber.d("PROGRESS $it")
-        }
         viewModel.downloadRepository.onDataDownloaded.observe(this) {
             sDownloadContent.isChecked = it
         }

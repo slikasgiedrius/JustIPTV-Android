@@ -15,8 +15,8 @@ import kotlin.math.ceil
 class DownloadRepository @Inject constructor(
     @ApplicationContext private val application: Context
 ) {
-    val downloadProgress = MutableLiveData<Int>()
-    val filePath = MutableLiveData<String>()
+    val onDownloadProgressChanged = MutableLiveData<Int>()
+    val onFilePatchChanged = MutableLiveData<String>()
     val onDataDownloaded = MutableLiveData<Boolean>()
 
     fun downloadFile(initialUrl: String?) {
@@ -40,7 +40,7 @@ class DownloadRepository @Inject constructor(
                         is FileBoxResponse.Downloading -> displayProgress(fileBoxResponse.progress)
                         is FileBoxResponse.Complete -> fileBoxResponse.record.decryptedFilePath?.let { it ->
                             Timber.d("Download complete")
-                            filePath.postValue(it)
+                            onFilePatchChanged.postValue(it)
                             onDataDownloaded.postValue(true)
                         }
                         is FileBoxResponse.Error -> Timber.e("Error while downloading file ${fileBoxResponse.throwable}")
@@ -51,6 +51,6 @@ class DownloadRepository @Inject constructor(
 
     private fun displayProgress(progress: Float) {
         val percent = ceil((progress) * 100).toInt()
-        downloadProgress.postValue(percent)
+        onDownloadProgressChanged.postValue(percent)
     }
 }
