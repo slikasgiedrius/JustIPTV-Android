@@ -2,20 +2,20 @@ package com.giedrius.iptv.ui.player
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import com.giedrius.iptv.R
+import com.giedrius.iptv.databinding.ActivityPlayerBinding
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_player.*
 
 @AndroidEntryPoint
 class PlayerActivity : AppCompatActivity(R.layout.activity_player) {
+
+    private lateinit var binding: ActivityPlayerBinding
 
     private val viewModel: PlayerViewModel by viewModels()
     private var mPlayer: SimpleExoPlayer? = null
@@ -24,15 +24,18 @@ class PlayerActivity : AppCompatActivity(R.layout.activity_player) {
 
     private val args: PlayerActivityArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityPlayerBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         initPlayer()
     }
 
     private fun initPlayer() {
         mPlayer = SimpleExoPlayer.Builder(this).build()
         // Bind the player to the view.
-        video_view.player = mPlayer
+        binding.videoView.player = mPlayer
         mPlayer!!.playWhenReady = true
         val mediaItem: MediaItem =
             MediaItem.fromUri(args.url)
@@ -60,9 +63,9 @@ class PlayerActivity : AppCompatActivity(R.layout.activity_player) {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            video_view.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+            binding.videoView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            video_view.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+            binding.videoView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
         }
     }
 
