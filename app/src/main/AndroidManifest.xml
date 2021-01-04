@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".compose.ComposeActivity"
+            android:label="@string/title_activity_compose"
+            android:theme="@style/Theme.NoActionBar" />
+        <activity
             android:name=".ui.input.InputActivity"
             android:theme="@style/Theme.NoActionBar">
             <intent-filter>
@@ -38,7 +42,7 @@
             android:theme="@style/Theme.FullScreen" />
         <activity
             android:name=".ui.introduction.IntroductionActivity"
-            android:theme="@style/Theme.NoActionBar"/>
+            android:theme="@style/Theme.NoActionBar" />
     </application>
 
 </manifest>

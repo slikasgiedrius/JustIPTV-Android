@@ -8,4 +8,5 @@
     <string name="title_player">Player</string>
 
     <string name="enter_url">Enter valid Iptv URL</string>
+    <string name="title_activity_compose">My Compose App</string>
 </resources>

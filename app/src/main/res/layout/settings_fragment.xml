@@ -76,6 +76,16 @@
         tools:tint="@color/black" />
 
     <Button
+        android:id="@+id/bComposeScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="Open Compose screen"
+        app:layout_constraintBottom_toTopOf="@+id/bIntroductionScreen"
+        app:layout_constraintEnd_toEndOf="@+id/bIntroductionScreen"
+        app:layout_constraintStart_toStartOf="@+id/bIntroductionScreen" />
+
+    <Button
         android:id="@+id/bIntroductionScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
