@@ -10,30 +10,32 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Favourite
+import com.giedrius.iptv.databinding.ItemChannelBinding
+import com.giedrius.iptv.databinding.ItemFavouriteBinding
+import com.giedrius.iptv.ui.channels.ChannelsAdapter
 import com.giedrius.iptv.utils.listeners.FavouriteClickListener
-import kotlinx.android.synthetic.main.item_favourite.view.*
 
 class FavouritesAdapter(
     private var favourites: List<Favourite>,
     private val context: Context,
     private val recyclerViewClickListener: FavouriteClickListener
-) : RecyclerView.Adapter<ViewHolder>() {
+): RecyclerView.Adapter<FavouritesAdapter.FavouriteViewHolder>() {
 
     override fun getItemCount(): Int {
         return favourites.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_favourite, parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteViewHolder {
+        val binding = ItemFavouriteBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return FavouriteViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavouriteViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
             recyclerViewClickListener.onFavouriteClickListener(favourites[position])
         }
-        holder.favouriteChannelName.text = favourites[position].channel.itemName
+        holder.binding.tvFavouriteName.text = favourites[position].channel.itemName
 
         bindImage(holder, favourites[position])
     }
@@ -43,20 +45,17 @@ class FavouritesAdapter(
         this.notifyDataSetChanged()
     }
 
-    private fun bindImage(holder: ViewHolder, favourite: Favourite) {
-        holder.favouriteChannelLogo.load(favourite.channel.itemLogo) {
+    private fun bindImage(holder: FavouriteViewHolder, favourite: Favourite) {
+        holder.binding.ivFavouriteLogo.load(favourite.channel.itemLogo) {
             if (favourite.channel.itemLogo.isNullOrEmpty()) {
-                holder.favouriteChannelLogo.load(R.drawable.ic_image_placeholder)
+                holder.binding.ivFavouriteLogo.load(R.drawable.ic_image_placeholder)
             } else {
-                holder.favouriteChannelLogo.load(favourite.channel.itemLogo)
+                holder.binding.ivFavouriteLogo.load(favourite.channel.itemLogo)
             }
             placeholder(R.drawable.ic_image_placeholder)
             error(R.drawable.ic_no_image_placeholder)
         }
     }
-}
 
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val favouriteChannelLogo: ImageView = view.ivFavouriteLogo
-    val favouriteChannelName: TextView = view.tvFavouriteName
+    inner class FavouriteViewHolder(val binding: ItemFavouriteBinding):RecyclerView.ViewHolder(binding.root)
 }

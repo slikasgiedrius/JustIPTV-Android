@@ -42,7 +42,7 @@
         android:id="@+id/playerActivity"
         android:name="com.giedrius.iptv.ui.player.PlayerActivity"
         android:label="@string/title_player"
-        tools:layout="@layout/player_activity">
+        tools:layout="@layout/activity_player">
         <argument
             android:name="url"
             app:argType="string" />

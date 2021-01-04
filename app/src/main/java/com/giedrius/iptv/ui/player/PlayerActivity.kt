@@ -12,11 +12,10 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.player_activity.*
-
+import kotlinx.android.synthetic.main.activity_player.*
 
 @AndroidEntryPoint
-class PlayerActivity : AppCompatActivity(R.layout.player_activity) {
+class PlayerActivity : AppCompatActivity(R.layout.activity_player) {
 
     private val viewModel: PlayerViewModel by viewModels()
     private var mPlayer: SimpleExoPlayer? = null

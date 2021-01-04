@@ -3,7 +3,9 @@ package com.giedrius.iptv.ui.channels
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,18 +13,30 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
+import com.giedrius.iptv.databinding.ChannelsFragmentBinding
 import com.giedrius.iptv.utils.extensions.hideKeyboard
 import com.giedrius.iptv.utils.listeners.ChannelClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.channels_fragment.*
 
 @AndroidEntryPoint
 class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListener {
+
+    private var _binding: ChannelsFragmentBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var adapter: ChannelsAdapter
 
     private lateinit var viewModel: ChannelsViewModel
     private var items: List<Channel> = arrayListOf()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = ChannelsFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(
         view: View,
@@ -34,6 +48,11 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         setupListeners()
         setupRecyclerView()
         handleObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onChannelClickListener(item: Channel) {
@@ -57,7 +76,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
             adapter.update(it)
         }
         viewModel.downloadRepository.onDownloadProgressChanged.observe(viewLifecycleOwner) {
-            progressBar.progress = it
+            binding.progressBar.progress = it
         }
         viewModel.onDataMissing.observe(viewLifecycleOwner) {
             startInputActivity(it)
@@ -68,15 +87,15 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
     }
 
     private fun setupListeners() {
-        etSearch.addTextChangedListener(object : TextWatcher {
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.performChannelSearch(items, etSearch.text.toString())
+                viewModel.performChannelSearch(items, binding.etSearch.text.toString())
             }
         })
 
-        etSearch.setOnEditorActionListener { _, actionId, _ ->
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hideKeyboard()
             }
@@ -86,9 +105,9 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
 
     private fun setupRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = linearLayoutManager
+        binding.recyclerView.layoutManager = linearLayoutManager
         adapter = ChannelsAdapter(items, requireContext(), this)
-        recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter
     }
 
     private fun startInputActivity(isDataMissing: Boolean) {

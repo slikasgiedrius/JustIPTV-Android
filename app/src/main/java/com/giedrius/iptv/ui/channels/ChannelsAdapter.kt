@@ -10,33 +10,33 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
+import com.giedrius.iptv.databinding.ItemChannelBinding
 import com.giedrius.iptv.utils.listeners.ChannelClickListener
-import kotlinx.android.synthetic.main.item_channel.view.*
 
 class ChannelsAdapter(
     private var channels: List<Channel>,
     private val context: Context,
     private val channelClickListener: ChannelClickListener
-) : RecyclerView.Adapter<ViewHolder>() {
+): RecyclerView.Adapter<ChannelsAdapter.ChannelViewHolder>() {
 
     override fun getItemCount(): Int {
         return channels.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_channel, parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelViewHolder {
+        val binding = ItemChannelBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return ChannelViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChannelViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
             channelClickListener.onChannelClickListener(channels[position])
         }
-        holder.channelLogo.setOnClickListener {
+        holder.binding.ivChannelLogo.setOnClickListener {
             channelClickListener.onFavouriteClickListener(channels[position])
         }
-        holder.channelName.text = channels[position].itemName
+        holder.binding.tvChannelName.text = channels[position].itemName
 
         bindImage(holder, channels[position])
     }
@@ -46,20 +46,17 @@ class ChannelsAdapter(
         this.notifyDataSetChanged()
     }
 
-    private fun bindImage(holder: ViewHolder, channel: Channel) {
-        holder.channelLogo.load(channel.itemLogo) {
+    private fun bindImage(holder: ChannelViewHolder, channel: Channel) {
+        holder.binding.ivChannelLogo.load(channel.itemLogo) {
             if (channel.itemLogo.isNullOrEmpty()) {
-                holder.channelLogo.load(R.drawable.ic_image_placeholder)
+                holder.binding.ivChannelLogo.load(R.drawable.ic_image_placeholder)
             } else {
-                holder.channelLogo.load(channel.itemLogo)
+                holder.binding.ivChannelLogo.load(channel.itemLogo)
             }
             placeholder(R.drawable.ic_image_placeholder)
             error(R.drawable.ic_no_image_placeholder)
         }
     }
-}
 
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val channelLogo: ImageView = view.ivChannelLogo
-    val channelName: TextView = view.tvChannelName
+    inner class ChannelViewHolder(val binding: ItemChannelBinding):RecyclerView.ViewHolder(binding.root)
 }

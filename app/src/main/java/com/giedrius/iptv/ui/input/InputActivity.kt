@@ -7,16 +7,21 @@ import androidx.appcompat.app.AppCompatActivity
 import com.giedrius.iptv.BuildConfig
 import com.giedrius.iptv.MainActivity
 import com.giedrius.iptv.R
+import com.giedrius.iptv.databinding.ActivityInputBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_input.*
 
 @AndroidEntryPoint
 class InputActivity : AppCompatActivity(R.layout.activity_input) {
+
+    private lateinit var binding: ActivityInputBinding
 
     private val viewModel: InputViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityInputBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         setupInitialUrl()
         handleObservers()
@@ -26,9 +31,9 @@ class InputActivity : AppCompatActivity(R.layout.activity_input) {
     private fun setupInitialUrl() {
         val initialUrl = viewModel.preferences.getInitialUrl()
         if (initialUrl == null) {
-            editTextTextMultiLine.setText(BuildConfig.MY_URL)
+            binding.editTextTextMultiLine.setText(BuildConfig.MY_URL)
         } else {
-            viewModel.validateUrl(editTextTextMultiLine.text.toString())
+            viewModel.validateUrl(binding.editTextTextMultiLine.text.toString())
         }
     }
 
@@ -39,8 +44,8 @@ class InputActivity : AppCompatActivity(R.layout.activity_input) {
     }
 
     private fun setupListeners() {
-        button.setOnClickListener {
-            viewModel.validateUrl(editTextTextMultiLine.text.toString())
+        binding.button.setOnClickListener {
+            viewModel.validateUrl(binding.editTextTextMultiLine.text.toString())
         }
     }
 

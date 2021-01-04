@@ -1,18 +1,33 @@
 package com.giedrius.iptv.ui.settings
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.giedrius.iptv.R
+import com.giedrius.iptv.databinding.FavouritesFragmentBinding
+import com.giedrius.iptv.databinding.SettingsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.settings_fragment.*
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
+    private var _binding: SettingsFragmentBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: SettingsViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = SettingsFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -20,11 +35,16 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         setupListeners()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun setupListeners() {
-        iwClearSharedPreferences.setOnClickListener { viewModel.clearSharedPreferences() }
-        iwDeleteAllChannels.setOnClickListener { viewModel.deleteAllChannels() }
-        iwDeleteAllFavouriteChannels.setOnClickListener { viewModel.deleteAllFavouriteChannels() }
-        bIntroductionScreen.setOnClickListener { startIntroductionActivity() }
+        binding.iwClearSharedPreferences.setOnClickListener { viewModel.clearSharedPreferences() }
+        binding.iwDeleteAllChannels.setOnClickListener { viewModel.deleteAllChannels() }
+        binding.iwDeleteAllFavouriteChannels.setOnClickListener { viewModel.deleteAllFavouriteChannels() }
+        binding.bIntroductionScreen.setOnClickListener { startIntroductionActivity() }
     }
 
     private fun startIntroductionActivity() {

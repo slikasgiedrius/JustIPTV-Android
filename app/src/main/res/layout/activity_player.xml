@@ -19,15 +19,4 @@
         app:hide_on_touch="true"
         app:controller_layout_id="@layout/exo_playback_control_view"/>
 
-    <Button
-        android:id="@+id/button"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go to Main Fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
