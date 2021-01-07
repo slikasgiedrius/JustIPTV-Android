@@ -44,13 +44,7 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         binding.iwClearSharedPreferences.setOnClickListener { viewModel.clearSharedPreferences() }
         binding.iwDeleteAllChannels.setOnClickListener { viewModel.deleteAllChannels() }
         binding.iwDeleteAllFavouriteChannels.setOnClickListener { viewModel.deleteAllFavouriteChannels() }
-        binding.bIntroductionScreen.setOnClickListener { startIntroductionActivity() }
         binding.bComposeScreen.setOnClickListener { startComposeActivity() }
-    }
-
-    private fun startIntroductionActivity() {
-        val action = SettingsFragmentDirections.actionSettingsFragmentToIntroductionActivity()
-        view?.findNavController()?.navigate(action)
     }
 
     private fun startComposeActivity() {

@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.giedrius.iptv.BuildConfig
-import com.giedrius.iptv.MainActivity
 import com.giedrius.iptv.R
 import com.giedrius.iptv.databinding.ActivityInputBinding
 import com.giedrius.iptv.ui.introduction.IntroductionActivity

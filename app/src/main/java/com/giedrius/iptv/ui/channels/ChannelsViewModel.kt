@@ -1,6 +1,5 @@
 package com.giedrius.iptv.ui.channels
 
-import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,20 +9,10 @@ import com.giedrius.iptv.data.model.Favourite
 import com.giedrius.iptv.data.repository.ChannelsRepository
 import com.giedrius.iptv.data.repository.DownloadRepository
 import com.giedrius.iptv.data.repository.FavouritesRepository
-import com.giedrius.iptv.utils.PlaylistParser
 import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
-import com.lyrebirdstudio.fileboxlib.core.*
-import dagger.hilt.android.qualifiers.ApplicationContext
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.io.File
-import java.io.FileInputStream
-import java.util.concurrent.TimeUnit
-import kotlin.math.ceil
 
 class ChannelsViewModel @ViewModelInject constructor(
     val preferences: Preferences,

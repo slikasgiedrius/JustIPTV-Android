@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.giedrius.iptv.MainActivityViewModel
+import com.giedrius.iptv.ui.MainActivityViewModel
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.databinding.ChannelsFragmentBinding
@@ -78,9 +78,6 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         }
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
             adapter.update(it)
-        }
-        viewModel.downloadRepository.onDownloadProgressChanged.observe(viewLifecycleOwner) {
-            binding.progressBar.progress = it
         }
         viewModel.onDataMissing.observe(viewLifecycleOwner) {
             startInputActivity(it)

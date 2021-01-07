@@ -4,14 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.giedrius.iptv.MainActivity
-import com.giedrius.iptv.MainActivityViewModel
+import com.giedrius.iptv.ui.MainActivity
 import com.giedrius.iptv.R
 import com.giedrius.iptv.databinding.ActivityIntroductionBinding
-import com.giedrius.iptv.ui.channels.ChannelsViewModel
-import com.giedrius.iptv.ui.input.InputActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class IntroductionActivity : AppCompatActivity(R.layout.activity_introduction) {

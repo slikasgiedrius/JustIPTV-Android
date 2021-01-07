@@ -1,4 +1,4 @@
-package com.giedrius.iptv
+package com.giedrius.iptv.ui
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
@@ -7,9 +7,5 @@ import com.giedrius.iptv.utils.Preferences
 import com.giedrius.iptv.utils.SingleLiveEvent
 
 class MainActivityViewModel @ViewModelInject constructor(
-    val preferences: Preferences,
-    val downloadRepository: DownloadRepository
-) : ViewModel() {
-
-    fun triggerContentDownload() = downloadRepository.downloadFile(preferences.getInitialUrl())
-}
+    val preferences: Preferences
+) : ViewModel()
