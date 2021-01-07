@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.giedrius.iptv.MainActivityViewModel
 import com.giedrius.iptv.R
 import com.giedrius.iptv.data.model.Channel
 import com.giedrius.iptv.databinding.ChannelsFragmentBinding
@@ -27,6 +28,9 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
     private lateinit var adapter: ChannelsAdapter
 
     private lateinit var viewModel: ChannelsViewModel
+    private lateinit var parentViewModel: MainActivityViewModel
+
+
     private var items: List<Channel> = arrayListOf()
 
     override fun onCreateView(
@@ -44,6 +48,7 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
     ) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(ChannelsViewModel::class.java)
+        parentViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
         setupListeners()
         setupRecyclerView()
@@ -70,7 +75,6 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         viewModel.channelsRepository.savedChannels.observe(viewLifecycleOwner) {
             items = it
             adapter.update(it)
-            viewModel.detectIfDownloadNeeded(items.count())
         }
         viewModel.onFetchedChannels.observe(viewLifecycleOwner) {
             adapter.update(it)
@@ -80,9 +84,6 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
         }
         viewModel.onDataMissing.observe(viewLifecycleOwner) {
             startInputActivity(it)
-        }
-        viewModel.downloadRepository.onFilePatchChanged.observe(viewLifecycleOwner) {
-            viewModel.loadChannels(it)
         }
     }
 

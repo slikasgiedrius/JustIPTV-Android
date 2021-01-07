@@ -34,30 +34,10 @@ class ChannelsViewModel @ViewModelInject constructor(
     val onFetchedChannels = SingleLiveEvent<List<Channel>>()
     val onDataMissing = MutableLiveData<Boolean>()
 
-    fun detectIfDownloadNeeded(itemsCount: Int) {
-        val initialUrl = preferences.getInitialUrl()
-        if (itemsCount == 0 && initialUrl != null) downloadRepository.downloadFile(initialUrl)
-    }
-
-    fun loadChannels(name: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val parser = PlaylistParser()
-            val inputStream = FileInputStream(File(name))
-            val playlist = parser.parseFile(inputStream)
-            playlist.playlistItems?.let { saveChannels(it) }
-        }
-    }
-
     fun performChannelSearch(channels: List<Channel>, phrase: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val filteredPlaylist = channels.filter { it.itemName?.contains(phrase, true) == true }
             onFetchedChannels.postValue(filteredPlaylist)
-        }
-    }
-
-    private fun saveChannels(channels: List<Channel>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            channelsRepository.uploadChannels(channels)
         }
     }
 

@@ -8,6 +8,7 @@ import com.giedrius.iptv.BuildConfig
 import com.giedrius.iptv.MainActivity
 import com.giedrius.iptv.R
 import com.giedrius.iptv.databinding.ActivityInputBinding
+import com.giedrius.iptv.ui.introduction.IntroductionActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,9 +39,7 @@ class InputActivity : AppCompatActivity(R.layout.activity_input) {
     }
 
     private fun handleObservers() {
-        viewModel.onUrlIsValid.observe(this) {
-            navigateToChannels()
-        }
+        viewModel.onUrlIsValid.observe(this) { navigateToIntroductionActivity() }
     }
 
     private fun setupListeners() {
@@ -49,8 +48,8 @@ class InputActivity : AppCompatActivity(R.layout.activity_input) {
         }
     }
 
-    private fun navigateToChannels() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun navigateToIntroductionActivity() {
+        val intent = Intent(this, IntroductionActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -50,12 +50,12 @@
         app:layout_constraintTop_toBottomOf="@+id/tvExtractItems" />
 
     <TextView
-        android:id="@+id/tvDisplayItems"
+        android:id="@+id/tvRetrieveItems"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Display items"
+        android:text="Retrieve items from local storage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveItems" />
 
@@ -87,12 +87,12 @@
         app:layout_constraintTop_toTopOf="@+id/tvSaveItems" />
 
     <Switch
-        android:id="@+id/sDisplayItems"
+        android:id="@+id/sRetrieveItems"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDisplayItems"
-        app:layout_constraintStart_toEndOf="@+id/tvDisplayItems"
-        app:layout_constraintTop_toTopOf="@+id/tvDisplayItems" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvRetrieveItems"
+        app:layout_constraintStart_toEndOf="@+id/tvRetrieveItems"
+        app:layout_constraintTop_toTopOf="@+id/tvRetrieveItems" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

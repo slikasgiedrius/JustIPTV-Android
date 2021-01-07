@@ -14,19 +14,6 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".compose.ComposeActivity"
-            android:label="@string/title_activity_compose"
-            android:theme="@style/Theme.NoActionBar" />
-        <activity
-            android:name=".ui.input.InputActivity"
-            android:theme="@style/Theme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
@@ -37,12 +24,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.player.PlayerActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/Theme.FullScreen" />
+            android:name=".ui.input.InputActivity"
+            android:theme="@style/Theme.NoActionBar">
+        </activity>
         <activity
             android:name=".ui.introduction.IntroductionActivity"
             android:theme="@style/Theme.NoActionBar" />
+        <activity
+            android:name=".compose.ComposeActivity"
+            android:label="@string/title_activity_compose"
+            android:theme="@style/Theme.NoActionBar" />
+        <activity
+            android:name=".ui.player.PlayerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/Theme.FullScreen" />
     </application>
 
 </manifest>
