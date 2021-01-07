@@ -26,8 +26,7 @@
         app:layout_constraintStart_toEndOf="@+id/tvClearSharedPreferences"
         app:layout_constraintTop_toTopOf="@+id/tvClearSharedPreferences"
         app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/black"
-        tools:tint="@color/black" />
+        app:tint="@color/primary" />
 
     <TextView
         android:id="@+id/tvDeleteAllChannels"
@@ -49,8 +48,7 @@
         app:layout_constraintStart_toEndOf="@+id/tvDeleteAllChannels"
         app:layout_constraintTop_toTopOf="@+id/tvDeleteAllChannels"
         app:layout_constraintVertical_bias="0.0"
-        app:tint="@color/black"
-        tools:tint="@color/black" />
+        app:tint="@color/primary" />
 
     <TextView
         android:id="@+id/tvDeleteAllFavouriteChannels"
@@ -72,16 +70,35 @@
         app:layout_constraintStart_toEndOf="@+id/tvDeleteAllFavouriteChannels"
         app:layout_constraintTop_toTopOf="@+id/tvDeleteAllFavouriteChannels"
         app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/black"
-        tools:tint="@color/black" />
+        app:tint="@color/primary" />
 
     <Button
         android:id="@+id/bComposeScreen"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:text="Open Compose screen"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bIntroduction"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bIntroduction" />
+
+    <Button
+        android:id="@+id/bIntroduction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Open Introduction Screen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bComposeScreen" />
+
+    <Button
+        android:id="@+id/bTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch theme"
+        app:layout_constraintBottom_toTopOf="@+id/bComposeScreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

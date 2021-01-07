@@ -19,80 +19,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvDownloadContent"
-        android:layout_width="wrap_content"
+    <com.shuhart.stepview.StepView
+        android:id="@+id/step_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="Download content from URL"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-    <TextView
-        android:id="@+id/tvExtractItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Extract items from content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDownloadContent" />
-
-    <TextView
-        android:id="@+id/tvSaveItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Save items to local storage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvExtractItems" />
-
-    <TextView
-        android:id="@+id/tvRetrieveItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Retrieve items from local storage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSaveItems" />
-
-    <Switch
-        android:id="@+id/sDownloadContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDownloadContent"
-        app:layout_constraintStart_toEndOf="@+id/tvDownloadContent"
-        app:layout_constraintTop_toTopOf="@+id/tvDownloadContent" />
-
-    <Switch
-        android:id="@+id/sExtractItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvExtractItems"
-        app:layout_constraintStart_toEndOf="@+id/tvExtractItems"
-        app:layout_constraintTop_toTopOf="@+id/tvExtractItems" />
-
-    <Switch
-        android:id="@+id/sSaveItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSaveItems"
-        app:layout_constraintStart_toEndOf="@+id/tvSaveItems"
-        app:layout_constraintTop_toTopOf="@+id/tvSaveItems" />
-
-    <Switch
-        android:id="@+id/sRetrieveItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRetrieveItems"
-        app:layout_constraintStart_toEndOf="@+id/tvRetrieveItems"
-        app:layout_constraintTop_toTopOf="@+id/tvRetrieveItems" />
+        android:background="@android:color/transparent"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:sv_doneCircleColor="@android:color/white"
+        app:sv_doneCircleRadius="14dp"
+        app:sv_doneStepLineColor="@color/primary"
+        app:sv_doneStepMarkColor="@color/primary"
+        app:sv_doneTextColor="@color/primary"
+        app:sv_nextStepLineColor="@color/primary"
+        app:sv_nextTextColor="@color/primary"
+        app:sv_selectedCircleColor="@android:color/white"
+        app:sv_selectedCircleRadius="12dp"
+        app:sv_selectedStepNumberColor="@color/primary"
+        app:sv_selectedTextColor="@android:color/white"
+        app:sv_stepLineWidth="1dp"
+        app:sv_stepNumberTextSize="12sp"
+        app:sv_stepPadding="4dp"
+        app:sv_stepViewStyle="@style/StepView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

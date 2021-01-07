@@ -28,8 +28,8 @@
             android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:imeOptions="actionSearch"
+            android:background="@android:color/transparent"
             android:inputType="text"
             android:hint="Search" />
     </com.google.android.material.textfield.TextInputLayout>

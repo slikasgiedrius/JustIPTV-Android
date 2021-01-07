@@ -7,15 +7,13 @@
         style="@style/ExoMediaButton.Play"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:background="#CC000000" />
+        android:layout_gravity="center" />
 
     <ImageButton
         android:id="@id/exo_pause"
         style="@style/ExoMediaButton.Pause"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:background="#CC000000" />
+        android:layout_gravity="center" />
 
 </FrameLayout>

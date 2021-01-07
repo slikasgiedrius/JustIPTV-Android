@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_composeActivity"
             app:destination="@id/composeActivity" />
+        <action
+            android:id="@+id/action_settingsFragment_to_introductionActivity"
+            app:destination="@id/introductionActivity" />
     </fragment>
 
     <activity
