@@ -24,10 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.input.InputActivity"
-            android:theme="@style/Theme.NoActionBar">
-        </activity>
-        <activity
             android:name=".ui.introduction.IntroductionActivity"
             android:theme="@style/Theme.NoActionBar" />
         <activity

@@ -3,7 +3,6 @@ package com.giedrius.iptv.data.repository
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.giedrius.iptv.utils.Preferences
-import com.giedrius.iptv.utils.SingleLiveEvent
 import com.lyrebirdstudio.fileboxlib.core.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,7 +16,7 @@ class DownloadRepository @Inject constructor(
     @ApplicationContext private val application: Context,
     private val preferences: Preferences
 ) {
-    val onDownloadProgressChanged = MutableLiveData<Int>()
+    private val onDownloadProgressChanged = MutableLiveData<Int>()
     val onFilePatchChanged = MutableLiveData<String>()
     val onDataDownloaded = MutableLiveData<Boolean>()
 
@@ -45,7 +44,9 @@ class DownloadRepository @Inject constructor(
                             onDataDownloaded.postValue(true)
                             preferences.setFilePath(path)
                         }
-                        is FileBoxResponse.Error -> Timber.e("Error while downloading file ${fileBoxResponse.throwable}")
+                        is FileBoxResponse.Error -> Timber.e(
+                            "Error while downloading file ${fileBoxResponse.throwable}"
+                        )
                     }
                 }, Timber::e)
         }

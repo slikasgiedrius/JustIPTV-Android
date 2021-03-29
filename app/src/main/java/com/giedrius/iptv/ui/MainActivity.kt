@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.giedrius.iptv.R
-import com.giedrius.iptv.ui.input.InputActivity
+import com.giedrius.iptv.ui.introduction.IntroductionActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
     private fun retrieveInitialUrl() {
         val initialUrl = viewModel.preferences.getInitialUrl()
-        if (initialUrl == null) navigateToInputActivity()
+        if (initialUrl == null) navigateToIntroductionActivity()
     }
 
-    private fun navigateToInputActivity() {
-        val intent = Intent(this, InputActivity::class.java)
+    private fun navigateToIntroductionActivity() {
+        val intent = Intent(this, IntroductionActivity::class.java)
         startActivity(intent)
         finish()
     }

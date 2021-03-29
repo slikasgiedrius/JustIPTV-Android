@@ -1,46 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.introduction.IntroductionActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:text="No adds, no fees. Just IPTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <com.shuhart.stepview.StepView
-        android:id="@+id/step_view"
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.giedrius.iptv.ui.introduction.IntroductionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        app:sv_doneCircleColor="@android:color/white"
-        app:sv_doneCircleRadius="14dp"
-        app:sv_doneStepLineColor="@color/primary"
-        app:sv_doneStepMarkColor="@color/primary"
-        app:sv_doneTextColor="@color/primary"
-        app:sv_nextStepLineColor="@color/primary"
-        app:sv_nextTextColor="@color/primary"
-        app:sv_selectedCircleColor="@android:color/white"
-        app:sv_selectedCircleRadius="12dp"
-        app:sv_selectedStepNumberColor="@color/primary"
-        app:sv_selectedTextColor="@android:color/white"
-        app:sv_stepLineWidth="1dp"
-        app:sv_stepNumberTextSize="12sp"
-        app:sv_stepPadding="4dp"
-        app:sv_stepViewStyle="@style/StepView" />
+        android:layout_height="match_parent"
+        tools:context=".ui.introduction.IntroductionActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:text="No adds, no fees. Just IPTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.shuhart.stepview.StepView
+            android:id="@+id/step_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button"
+            app:sv_animationType="All"
+            app:sv_doneCircleColor="@color/success_green"
+            app:sv_doneCircleRadius="14dp"
+            app:sv_doneStepLineColor="@color/success_green"
+            app:sv_doneStepMarkColor="@color/dark"
+            app:sv_doneTextColor="@color/grey"
+            app:sv_nextStepCircleColor="@color/light_grey"
+            app:sv_nextStepCircleEnabled="true"
+            app:sv_nextStepLineColor="@color/grey"
+            app:sv_nextTextColor="@color/grey"
+            app:sv_selectedCircleColor="@color/dark"
+            app:sv_selectedCircleRadius="12dp"
+            app:sv_selectedStepNumberColor="@color/white"
+            app:sv_selectedTextColor="@color/dark"
+            app:sv_stepLineWidth="1dp"
+            app:sv_stepViewStyle="@style/StepView" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go to Channels Fragment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
+
+        <EditText
+            android:id="@+id/editTextTextMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="https://"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

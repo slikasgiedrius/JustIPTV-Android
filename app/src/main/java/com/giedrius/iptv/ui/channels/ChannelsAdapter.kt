@@ -1,11 +1,7 @@
 package com.giedrius.iptv.ui.channels
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.giedrius.iptv.R
@@ -15,9 +11,8 @@ import com.giedrius.iptv.utils.listeners.ChannelClickListener
 
 class ChannelsAdapter(
     private var channels: List<Channel>,
-    private val context: Context,
     private val channelClickListener: ChannelClickListener
-): RecyclerView.Adapter<ChannelsAdapter.ChannelViewHolder>() {
+) : RecyclerView.Adapter<ChannelsAdapter.ChannelViewHolder>() {
 
     override fun getItemCount(): Int {
         return channels.size
@@ -58,5 +53,6 @@ class ChannelsAdapter(
         }
     }
 
-    inner class ChannelViewHolder(val binding: ItemChannelBinding):RecyclerView.ViewHolder(binding.root)
+    inner class ChannelViewHolder(val binding: ItemChannelBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

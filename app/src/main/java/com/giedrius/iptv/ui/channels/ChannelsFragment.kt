@@ -104,14 +104,13 @@ class ChannelsFragment : Fragment(R.layout.channels_fragment), ChannelClickListe
     private fun setupRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = linearLayoutManager
-        adapter = ChannelsAdapter(items, requireContext(), this)
+        adapter = ChannelsAdapter(items, this)
         binding.recyclerView.adapter = adapter
     }
 
     private fun startInputActivity(isDataMissing: Boolean) {
         if (isDataMissing) {
-            val action = ChannelsFragmentDirections.actionChannelsFragmentToInputActivity()
-            view?.findNavController()?.navigate(action)
+            //Open if data is missing
         }
     }
 }

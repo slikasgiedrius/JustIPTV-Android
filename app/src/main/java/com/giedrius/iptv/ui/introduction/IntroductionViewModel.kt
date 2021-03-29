@@ -22,11 +22,21 @@ class IntroductionViewModel @ViewModelInject constructor(
     val preferences: Preferences
 ) : ViewModel() {
 
+    val onUrlIsValid = MutableLiveData<Boolean>()
     val onExtractionCompleted = MutableLiveData<Boolean>()
     val onSavingCompleted = MutableLiveData<Boolean>()
 
-    init {
-        downloadRepository.downloadFile(preferences.getInitialUrl())
+    fun validateUrl(url: String) {
+        url.apply {
+            saveUrlIfNeeded(this)
+            onUrlIsValid.postValue(true)
+        }
+    }
+
+    private fun saveUrlIfNeeded(url: String) {
+        if (preferences.getInitialUrl() == null){
+            preferences.setInitialUrl(url)
+        }
     }
 
     fun loadChannels(name: String?) {
@@ -48,6 +58,12 @@ class IntroductionViewModel @ViewModelInject constructor(
             withContext (Dispatchers.Main) {
                 onSavingCompleted.postValue(true)
             }
+        }
+    }
+
+    fun downloadContent() {
+        viewModelScope.launch(Dispatchers.IO) {
+            downloadRepository.downloadFile(preferences.getInitialUrl())
         }
     }
 }

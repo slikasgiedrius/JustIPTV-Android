@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_channelsFragment_to_playerActivity"
             app:destination="@id/playerActivity" />
-        <action
-            android:id="@+id/action_channelsFragment_to_inputActivity"
-            app:destination="@id/inputActivity" />
     </fragment>
 
     <fragment
@@ -50,11 +47,6 @@
             android:name="url"
             app:argType="string" />
     </activity>
-    <activity
-        android:id="@+id/inputActivity"
-        android:name="com.giedrius.iptv.ui.input.InputActivity"
-        android:label="activity_input"
-        tools:layout="@layout/activity_input" />
     <activity
         android:id="@+id/introductionActivity"
         android:name="com.giedrius.iptv.ui.introduction.IntroductionActivity"
